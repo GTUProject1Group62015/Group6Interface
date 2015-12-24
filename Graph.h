@@ -114,7 +114,7 @@ public:
      * @return rotation value 1,2,3,4,5
      * 1-> sol
      * 2-> dur yönü buldun
-     * 3-> sağ
+     * 3-> sað
      * 4-> ileri
      * 5-> geri
      * 0-> node yerlesim hatasi
@@ -126,7 +126,8 @@ public:
     //tam node un ustune geldiginde 5 gonderdik
     int moveRotation(Vertex source, Vertex next);
 
-    //Server kullanım sekli
+
+    //Server kullaným sekli
     //int flag=0;
     //while true
     //if(flag==2)
@@ -142,6 +143,7 @@ private:
     int numV;
     vector<vector<Edge> > data;
     vector<Vertex> vertexList;
+
 };
 
 #endif /* GRAPH_H_ */

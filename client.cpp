@@ -9,6 +9,7 @@
 #include "input.h"
 #include <cstdio>
 #include <winsock2.h>
+#include "input.h"
 #define MAX_LINE 100
 #define LINE_ARRAY_SIZE (MAX_LINE+1)
 
@@ -23,7 +24,13 @@ int main7(){
     return 0;
 }
 
-int main8() {
+
+int main10()
+{
+    return 0;
+}
+
+int main9() {
     int socketDescriptor;
     unsigned short int serverPort = 5005;
     struct sockaddr_in serverAddress;
@@ -102,20 +109,16 @@ int main8() {
         }
 
         /*
-
          soft
-
          */
         input_s.setInput(string(buf));
         cerr << "Modified: " << buf << "\n";
         cerr << "x: " << input_s.x << " y:" << input_s.y << " d: " << input_s.d << " rec: " << input_s.rec <<  endl;
         int result;
         /*
-
          BURASI YAZILIMCILARIN ALANI
-         GELEN DATA PARS EDİLECEK GEREKLİ İŞLEMLER YAPILACAK
-         RESULT OLARAK 1 2 3 4 5 SAYILARINDAN BİRİSİ DÖNECEK
-
+         GELEN DATA PARS EDÝLECEK GEREKLÝ ÝÞLEMLER YAPILACAK
+         RESULT OLARAK 1 2 3 4 5 SAYILARINDAN BÝRÝSÝ DÖNECEK
          */
         if (input_s.d < 10 || input_s.d > 350) {
             result = 2;
@@ -124,9 +127,6 @@ int main8() {
         } else {
             result = 1;
         }
-
-        sprintf(array, "%d", result);
-        strcat(buf, array);
 
         sprintf(array, "%d", result);
         strcat(buf, array);

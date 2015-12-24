@@ -53,13 +53,34 @@ IcMekan::IcMekan(QWidget *parent) :
 
         NodeCoordinate.push_back(Coor(xMiddle,yMiddle));
     }
-    QTextStream(stdout) << NodeCoordinate.size() << endl;
+    //QTextStream(stdout) << NodeCoordinate.size() << endl;
 
     //Add Vertex
 
-    for(int i=0;i<NodeCoordinate.size();i++)
+    /*for(int i=0;i<NodeCoordinate.size();i++)
     {
         g.addVertex(NodeCoordinate.at(i));
+    }*/
+
+
+    WayCoordinate.push_back(Coor(208,142));
+    WayCoordinate.push_back(Coor(227,267));
+    WayCoordinate.push_back(Coor(227,443));
+    WayCoordinate.push_back(Coor(227,590));
+    WayCoordinate.push_back(Coor(349,602));
+    WayCoordinate.push_back(Coor(488,579));
+    WayCoordinate.push_back(Coor(487,456));
+    WayCoordinate.push_back(Coor(487,300));
+    WayCoordinate.push_back(Coor(534,137));
+    WayCoordinate.push_back(Coor(324,122));
+
+    QTextStream(stdout) << WayCoordinate.size() << endl;
+
+    //Add Vertex
+
+    for(int i=0;i<WayCoordinate.size();i++)
+    {
+        g.addVertex(WayCoordinate.at(i));
     }
 
 
@@ -71,7 +92,13 @@ IcMekan::IcMekan(QWidget *parent) :
 
     g.setEdge(vertexList[0],vertexList[1]);
     g.setEdge(vertexList[1],vertexList[2]);
-    g.setEdge(vertexList[1],vertexList[3]);
+    g.setEdge(vertexList[2],vertexList[3]);
+    g.setEdge(vertexList[3],vertexList[4]);
+    g.setEdge(vertexList[4],vertexList[5]);
+    g.setEdge(vertexList[5],vertexList[6]);
+    g.setEdge(vertexList[6],vertexList[7]);
+    g.setEdge(vertexList[7],vertexList[8]);
+    g.setEdge(vertexList[8],vertexList[9]);
     /*
     g.add(Coor(150,165),Coor(180,164));
     g.add(Coor(180,164),Coor(179,133));
@@ -99,13 +126,14 @@ IcMekan::IcMekan(QWidget *parent) :
     destinationMarker = scene -> addEllipse(0,0,DMWIDTH,DMWIDTH,blackPen,redBrush);
     destinationMarker->setFlag(QGraphicsItem::ItemIsMovable);
     destinationVertex = g.addVertex(Coor(destinationMarker->pos().x() + DMWIDTH/2, destinationMarker->pos().y() + DMWIDTH/2));
-    //connectToServer();
+    connectToServer();
+    cerr << "burası55" << endl;
     // Create User Location Marker
     locationMarker = scene -> addPolygon(QPolygonF( QVector<QPointF>() << QPointF( 20, -20 ) << QPointF( 0, -20) << QPointF( 10, 20)),blackPen,blueBrush);
     locationMarker->setFlag(QGraphicsItem::ItemIsMovable);
     locationMarker->setRotation(input_s.d*-1);
     locationVertex = g.addVertex(Coor(locationMarker->pos().x(), locationMarker->pos().y()));
-
+cerr << "burası44" << endl;
     // Create Node Locations Marker
     if(DEVELOPERMODE)
     {
@@ -137,13 +165,12 @@ IcMekan::IcMekan(QWidget *parent) :
     }
     */
     //seekLocation();
-
-    /*time=new QTimer(this);
+    cerr << "burası1" << endl;
+    time=new QTimer(this);
     connect(time, SIGNAL(timeout()), this, SLOT(update2()));
-    time->start(1000);*/
-
+    time->start(1000);
     //int StartRect;
-
+    cerr << "burası2" << endl;
 }
 
 
@@ -313,14 +340,46 @@ void IcMekan::update2(){
         result = 1;
     }
 
-    locationMarker->setRotation(input_s.d);
-    locationMarker->setPos(input_s.x,input_s.y);
+    if(input_s.x!=0 && input_s.y!=0 ){
+        locationMarker->setPos(input_s.x,input_s.y);
+    }
 
     //Location destination a vardı mı ?
+    if(input_s.rec==destinationRect)
+    {
+        //reach
+        sprintf(sendData,"%d",2);
+
+    }else{
+        vector<Vertex> shortPath;
+        vector<Edge> edgeList;
+        vector<Vertex> list=g.getVertexList();
+        shortPath=g.shortestPath(list[0],list[list.size()-1]);
+        //Control degree
+
+        for(int i =0;i<shortPath.size()-1;i++)
+        {
+            Edge e=Edge(shortPath[i],shortPath[i+1]);
+            edgeList.push_back(e);
+        }
+
+        if(edgeList[0].getDegree()>input_s.d-22,5 && edgeList[0].getDegree()<input_s.d+22,5)
+        {
+            sprintf(sendData,"%d",4);
+        }
+        else if(edgeList[0].getDegree()<input_s.d-22,5 || edgeList[0].getDegree()<input_s.d+22,5 )
+        {
+            sprintf(sendData,"%d",1);
+
+        }else if(edgeList[0].getDegree()>input_s.d +22,5 || edgeList[0].getDegree()<input_s.d-22,5)
+        {
+            sprintf(sendData,"%d",3);
+        }
+
+    }
 
 
-
-    sprintf(sendData, "%d", result);
+   // sprintf(sendData, "%d", result);
     //strcat(buf, sendData);
 
     //strcat(buf, "****");
@@ -443,7 +502,7 @@ void IcMekan::connectToServer(){
 
      */
 
-
+    cerr << "yeter " << endl;
 
     if (input_s.d < 10 || input_s.d > 350) {
         result = 2;
@@ -452,12 +511,14 @@ void IcMekan::connectToServer(){
     } else {
         result = 1;
     }
+    cerr <<     "mazhar " << endl;
+    if(input_s.x!=0 && input_s.y!=0 ){
+        locationMarker->setPos(input_s.x,input_s.y);
+    }
 
-    locationMarker->setRotation(input_s.d);
-    locationMarker->setPos(input_s.x,input_s.y);
     //yanlizca 2 gonder dedigin icin result i 2 yaptim
     result=2;
-
+    cerr <<     "patlaaa" << endl;
     sprintf(sendData, "%d", result);
     //strcat(buf, sendData);
 

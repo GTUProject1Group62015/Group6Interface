@@ -354,11 +354,9 @@ int Graph::moveRotation(Vertex source, Vertex next)
 /*void moveCompass(void)
 {
     double rotation;
-
     while(true)
     {
         cin>>rotation;
-
         while( i<list.size() )
         {
             findRotation(list[i] , list[i+1], rotation)
@@ -379,4 +377,9 @@ vector<Edge> Graph::getAllEdge(){
         }
     }
     return result;
+}
+
+
+Coor gpsCoorToPixel(int x,int y){
+
 }

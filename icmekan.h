@@ -71,6 +71,7 @@ private slots:
 
 private:
     vector<Coor> NodeCoordinate;
+    vector<Coor> WayCoordinate;
     vector<Area> colorAreaPoint;
     Ui::IcMekan *Iui;
     QGraphicsScene *scene;
@@ -97,7 +98,7 @@ private:
     char sendData[2];
     Input input_s;
 
-    bool moving;
+    bool moving=false;
     //gidilmek istenen bolge
     int destinationRect;
     int StartRect;
