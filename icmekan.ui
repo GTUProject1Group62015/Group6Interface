@@ -65,56 +65,17 @@
     <string>TextLabel</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="bolge1Button">
+  <widget class="QPushButton" name="deneme">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>110</y>
+     <x>1090</x>
+     <y>270</y>
      <width>93</width>
      <height>28</height>
     </rect>
    </property>
    <property name="text">
-    <string>z06</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="bolge2Button">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>250</y>
-     <width>93</width>
-     <height>28</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>z11</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="bolge3Button">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>450</y>
-     <width>93</width>
-     <height>28</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Bil Lab</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="bolge4Button">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>620</y>
-     <width>93</width>
-     <height>28</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Kantin</string>
+    <string>deneme</string>
    </property>
   </widget>
  </widget>

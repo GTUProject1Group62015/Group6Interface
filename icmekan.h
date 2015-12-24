@@ -67,7 +67,10 @@ private slots:
     void on_pushButton_clicked();
     void update2();
 
+    void on_deneme_clicked();
+
 private:
+    vector<Coor> NodeCoordinate;
     vector<Area> colorAreaPoint;
     Ui::IcMekan *Iui;
     QGraphicsScene *scene;
@@ -93,6 +96,8 @@ private:
 
     char sendData[2];
     Input input_s;
+
+    bool moving;
 
 };
 

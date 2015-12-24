@@ -4,7 +4,7 @@
 #include <QGraphicsItemGroup>
 #include <QTextStream>
 
-#define MAPPATH "C:/Users/test/Documents/Group6Interface/KatPlaniPP.jpg"
+#define MAPPATH "C:/Users/test/Documents/GitHub/Group6Interface/aa.jpg"
 #define DMWIDTH 35 // Destination Marker Width
 #define NLWIDTH 15 // Node Location Marker Width
 #define DEVELOPERMODE true
@@ -18,53 +18,6 @@ IcMekan::IcMekan(QWidget *parent) :
     QBrush blueBrush(Qt::blue);
     QBrush greenBrush(Qt::green);
     QPen blackPen(Qt::black);
-
-
-    Iui->setupUi(this);
-
-    scene = new QGraphicsScene(this);
-    Iui->graphicsView->setScene(scene);
-
-    blackPen.setWidth(6);
-
-    // Add Map First
-    planPixmap = scene -> addPixmap(QPixmap(MAPPATH));
-
-
-
-    // Create Destination Marker on map
-    destinationMarker = scene -> addEllipse(0,0,DMWIDTH,DMWIDTH,blackPen,redBrush);
-    destinationMarker->setFlag(QGraphicsItem::ItemIsMovable);
-    //destinationVertex = g.addVertex(Coor(destinationMarker->pos().x() + DMWIDTH/2, destinationMarker->pos().y() + DMWIDTH/2));
-
-
-  //************  connectToServer();
-
-
-    // Create User Location Marker
-    locationMarker = scene -> addPolygon(QPolygonF( QVector<QPointF>() << QPointF( 20, -20 ) << QPointF( 0, -20) << QPointF( 10, 20)),blackPen,blueBrush);
-    locationMarker->setFlag(QGraphicsItem::ItemIsMovable);
-    //locationVertex = g.addVertex(Coor(locationMarker->pos().x(), locationMarker->pos().y()));
-
-
-
-    //painter.drawRect(20, 12, 215, 178); //1. bölge
-    //painter.drawRect(20, 184, 240, 185); //2. bölge
-    //painter.drawRect(32, 375, 230, 137); //3. bölge
-    //painter.drawRect(20, 510, 250, 180); //4. bölge
-    //painter.drawRect(260, 510, 200, 145); //5. bölge
-    //painter.drawRect(460, 510, 240, 180); //6. bölge
-    //painter.drawRect(420, 380, 280, 140); //7. bölge
-    //painter.drawRect(456, 189, 260, 190); //8. bölge
-    //painter.drawRect(518, 12, 180, 190); //9. bölge
-    //painter.drawRect(392, 16, 125, 180); //10. bölge
-    //painter.drawRect(215, 16, 185, 180); //11. bölge
-
-
-
-
-   // Area point (0, 0, 0, 0);
-   // colorAreaPoint.push_back(point);
 
     Area point1 (20, 12, 215, 178);
     colorAreaPoint.push_back(point1);
@@ -90,15 +43,100 @@ IcMekan::IcMekan(QWidget *parent) :
     colorAreaPoint.push_back(point11);
 
 
-    /*int x1;
-    int x2;
-    int y1;
-    int y2;
-
-    x1=colorAreaPoint.at(0).x;*/
+    int xMiddle,yMiddle;
 
 
+    for(int i=0;i<colorAreaPoint.size();i++)
+    {
+        xMiddle=colorAreaPoint.at(i).x + (colorAreaPoint.at(i).width)*0.5;
+        yMiddle=colorAreaPoint.at(i).y + (colorAreaPoint.at(i).height)*0.5;
 
+        NodeCoordinate.push_back(Coor(xMiddle,yMiddle));
+    }
+    QTextStream(stdout) << NodeCoordinate.size() << endl;
+
+    //Add Vertex
+
+    for(int i=0;i<NodeCoordinate.size();i++)
+    {
+        g.addVertex(NodeCoordinate.at(i));
+    }
+
+
+
+    vector<Vertex> vertexList;
+    vertexList=g.getVertexList();
+
+
+
+    g.setEdge(vertexList[0],vertexList[1]);
+    g.setEdge(vertexList[1],vertexList[2]);
+    g.setEdge(vertexList[1],vertexList[3]);
+    /*
+    g.add(Coor(150,165),Coor(180,164));
+    g.add(Coor(180,164),Coor(179,133));
+    g.add(Coor(179,133),Coor(226,165));
+    g.add(Coor(226,165),Coor(223,203));
+    g.add(Coor(198,201),Coor(223,203));
+    g.add(Coor(220,360),Coor(223,203));
+
+    // Get Edge List Must Be Implemented
+    // Shortest Path Must Return Edge List
+    */
+
+    Iui->setupUi(this);
+    scene = new QGraphicsScene(this);
+    Iui->graphicsView->setScene(scene);
+
+    blackPen.setWidth(6);
+
+    // Add Map First
+    planPixmap = scene -> addPixmap(QPixmap(MAPPATH));
+
+
+
+    // Create Destination Marker on map
+    destinationMarker = scene -> addEllipse(0,0,DMWIDTH,DMWIDTH,blackPen,redBrush);
+    destinationMarker->setFlag(QGraphicsItem::ItemIsMovable);
+    destinationVertex = g.addVertex(Coor(destinationMarker->pos().x() + DMWIDTH/2, destinationMarker->pos().y() + DMWIDTH/2));
+    //connectToServer();
+    // Create User Location Marker
+    locationMarker = scene -> addPolygon(QPolygonF( QVector<QPointF>() << QPointF( 20, -20 ) << QPointF( 0, -20) << QPointF( 10, 20)),blackPen,blueBrush);
+    locationMarker->setFlag(QGraphicsItem::ItemIsMovable);
+    locationMarker->setRotation(input_s.d*-1);
+    locationVertex = g.addVertex(Coor(locationMarker->pos().x(), locationMarker->pos().y()));
+
+    // Create Node Locations Marker
+    if(DEVELOPERMODE)
+    {
+        // Draw lines between all vertexes
+        vector<Edge> edgeList = g.getAllEdge();
+        for(uint i = 0; i < edgeList.size()-1; ++i)
+        {
+            // Add Line for Edges
+            drawLine(edgeList[i].getSourceVertex(), edgeList[i].getDestVertex(), blackPen);
+        }
+
+        for(uint i = 0; i < vertexList.size(); ++i)
+        {
+            nodeLocationsMarker = scene -> addEllipse(vertexList[i].getX()-NLWIDTH/2,
+                                                      vertexList[i].getY()-NLWIDTH/2,
+                                                      NLWIDTH,
+                                                      NLWIDTH,
+                                                      blackPen,
+                                                      greenBrush);
+        }
+    }
+    /*
+    // Draw lines between all vertexes
+    for(uint i = 0; i < vertexList.size()-1; ++i)
+    {
+        // Add Line for Edges
+        drawLine(vertexList[i],vertexList[i+1] );
+
+    }
+    */
+    //seekLocation();
 
     /*time=new QTimer(this);
     connect(time, SIGNAL(timeout()), this, SLOT(update2()));
@@ -116,18 +154,34 @@ IcMekan::~IcMekan()
 
 void IcMekan::on_pushButton_clicked()
 {
-    //Iui->label->setText("AAAAAAAAA");
+    // Print destination location
+    //ui->label->setText(QString::number(destinationMarker->pos().x()+ DMWIDTH/2) + ", " + QString::number(destinationMarker->pos().y()+ DMWIDTH/2));
+
     QPen redPen(Qt::red);
     redPen.setWidth(5);
 
-    //destinationVertex->setVertex(destinationMarker->pos().x() + DMWIDTH/2, destinationMarker->pos().y() + DMWIDTH/2);
-    //locationVertex->setVertex(locationMarker->pos().x() + 10, locationMarker->pos().y());
+    destinationVertex->setVertex(destinationMarker->pos().x() + DMWIDTH/2, destinationMarker->pos().y() + DMWIDTH/2);
+    locationVertex->setVertex(locationMarker->pos().x() + 10, locationMarker->pos().y());
 
-    Iui->label->setText("destination vertex = " + QString::number(destinationMarker->pos().x() + DMWIDTH/2) + ", " + QString::number(destinationMarker->pos().y() + DMWIDTH/2));
+    Iui->label->setText("destination vertex = " + QString::number(destinationVertex->getX()) + ", " + QString::number(destinationVertex->getY()));
 
+    clearLines();
 
+    QGraphicsLineItem *line;
+    line = drawLine(*locationVertex, g.getVertexList()[0], redPen);
+    drawedLines.push_front(line);
+    for(uint i = 0; i < g.getVertexList().size()-3; ++i)
+    {
+        // Add Line for Edges
+        line = drawLine(g.getVertexList()[i], g.getVertexList()[i+1], redPen);
+        drawedLines.push_front(line);
+    }
+    line = drawLine(*destinationVertex, g.getVertexList()[g.getVertexList().size()-3], redPen);
+    drawedLines.push_front(line);
+    locationMarker->setRotation(45);
     int veri=FindArea();
     QTextStream(stdout) << veri << endl;
+
     QPixmap pix(1000,1000);
 
     pix.fill(Qt::transparent);
@@ -148,7 +202,7 @@ void IcMekan::on_pushButton_clicked()
 
     scene -> addPixmap(pix);
 
-    locationMarker->setRotation(45);
+
 }
 
 void IcMekan::seekLocation()
@@ -160,7 +214,7 @@ void IcMekan::seekLocation()
 
 QGraphicsLineItem* IcMekan::drawLine(Vertex &c1, Vertex &c2, QPen pen)
 {
-    return scene -> addLine(c1.getX(),c1.getY(),c2.getX(),c2.getY(),pen);
+     return scene -> addLine(c1.getX(),c1.getY(),c2.getX(),c2.getY(),pen);
 }
 
 void IcMekan::clearLines()
@@ -179,13 +233,13 @@ int IcMekan::FindArea()
     {
         // && (destinationVertex->getY()< colorAreaPoint.at(i).y) && (destinationVertex->getX() < ( colorAreaPoint.at(i).width +colorAreaPoint.at(i).x ))  &&  (destinationVertex->getY() < ( colorAreaPoint.at(i).height +colorAreaPoint.at(i).y ))
 
-        if( destinationMarker->pos().x() + DMWIDTH/2 >= colorAreaPoint.at(i).x)
+        if( destinationVertex->getX() >= colorAreaPoint.at(i).x)
         {
-            if(destinationMarker->pos().y() + DMWIDTH/2 >= colorAreaPoint.at(i).y)
+            if(destinationVertex->getY() >= colorAreaPoint.at(i).y)
             {
-                if(destinationMarker->pos().x() + DMWIDTH/2< ( colorAreaPoint.at(i).width +colorAreaPoint.at(i).x ))
+                if(destinationVertex->getX()< ( colorAreaPoint.at(i).width +colorAreaPoint.at(i).x ))
                 {
-                    if(destinationMarker->pos().y() + DMWIDTH/2< ( colorAreaPoint.at(i).height +colorAreaPoint.at(i).y))
+                    if(destinationVertex->getY()< ( colorAreaPoint.at(i).height +colorAreaPoint.at(i).y))
                     {
                         QTextStream(stdout) << i << endl;
 
@@ -218,7 +272,7 @@ int IcMekan::FindArea()
 }
 
 void IcMekan::update2(){
-    int angle= locationMarker->rotation();
+   //int angle= locationMarker->rotation();
     /*int x=locationMarker->pos().x;
     int y=locationMarker->pos().y;
 */
@@ -412,3 +466,15 @@ void IcMekan::connectToServer(){
 }
 
 
+
+void IcMekan::on_deneme_clicked()
+{
+
+    /*QBrush blueBrush(Qt::blue);
+
+    QPen blackPen(Qt::black);
+
+    locationMarker->setRotation(30);
+    locationMarker->setPolygon(QPolygonF( QVector<QPointF>() << QPointF( 20, -20 ) << QPointF( 0, -20) << QPointF( 10, 20)),blackPen,blueBrush);
+   */
+}
