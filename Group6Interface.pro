@@ -17,7 +17,8 @@ SOURCES += main.cpp\
     icmekan.cpp \
     DijkstrasAlgorithm.cpp \
     Graph.cpp \
-    dismekan.cpp
+    dismekan.cpp \
+    mygraphicsscene.cpp
 
 HEADERS  += mainwindow.h \
     icmekan.h \
@@ -27,7 +28,8 @@ HEADERS  += mainwindow.h \
     DijkstrasAlgorithm.h \
     Graph.h \
     Vertex.h \
-    dismekan.h
+    dismekan.h \
+    mygraphicsscene.h
 
 FORMS    += mainwindow.ui \
     icmekan.ui \

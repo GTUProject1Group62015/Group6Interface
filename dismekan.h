@@ -13,10 +13,27 @@
 #include "Graph.h"
 #include <QPainter>
 #include "Area.h"
+#include <QMouseEvent>
+
+
 
 namespace Ui {
 class disMekan;
+//class MyGraphicsScene;
 }
+
+
+
+/*class MyGraphicsScene : public QGraphicsScene
+{
+   Q_OBJECT
+
+public:
+   explicit MyGraphicsScene(QGraphicsScene *parent = 0);
+   void mouseMoveEvent(QMouseEvent *event);
+   ~MyGraphicsScene();
+};*/
+
 
 class disMekan : public QDialog
 {
@@ -24,7 +41,10 @@ class disMekan : public QDialog
 
 public:
     explicit disMekan(QWidget *parent = 0);
+    void mouseReleaseEvent ( QGraphicsSceneMouseEvent * event );
+    Ui::disMekan *dUi;
     ~disMekan();
+
 
 private slots:
     void on_pushButton_clicked();
@@ -32,7 +52,7 @@ private slots:
     void on_bilMuhButton_clicked();
 
 private:
-    Ui::disMekan *dUi;
+
     QGraphicsPixmapItem *planPixmap;
     QGraphicsScene *scene;
 

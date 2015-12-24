@@ -47,6 +47,13 @@ private:
     Graph g;
     Vertex *locationVertex;
     Vertex *destinationVertex;
+
+    int xTransRect=0;
+    int yTransRect=0;
+    int widthTransRect=0;
+    int heightTransRect=0;
+    QRect rect;
+
 };
 
 #endif // ICMEKAN_H

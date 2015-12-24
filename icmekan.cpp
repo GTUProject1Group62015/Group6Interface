@@ -2,6 +2,7 @@
 #include "ui_icmekan.h"
 #include "Graph.h"
 #include <QGraphicsItemGroup>
+#include <QTextStream>
 
 #define MAPPATH "C:/Users/test/Documents/Group6Interface/KatPlaniPP.jpg"
 #define DMWIDTH 35 // Destination Marker Width
@@ -126,12 +127,14 @@ IcMekan::IcMekan(QWidget *parent) :
 
 
 
-    QPixmap pix(1000,1000);
+    /*QPixmap pix(1000,1000);
     pix.fill(Qt::transparent);
 
     QPainter painter(&pix);
 
     painter.setBrush(QColor(0, 255, 0, 127));
+    */
+
     //painter.drawRect(20, 12, 215, 178); //1. bölge
     //painter.drawRect(20, 184, 240, 185); //2. bölge
     //painter.drawRect(32, 375, 230, 137); //3. bölge
@@ -147,6 +150,8 @@ IcMekan::IcMekan(QWidget *parent) :
 
 
 
+   // Area point (0, 0, 0, 0);
+   // colorAreaPoint.push_back(point);
 
     Area point1 (20, 12, 215, 178);
     colorAreaPoint.push_back(point1);
@@ -172,16 +177,16 @@ IcMekan::IcMekan(QWidget *parent) :
     colorAreaPoint.push_back(point11);
 
 
-    int veri=FindArea();
+    //int veri=FindArea();
 
    //Hangi bölge gelirse veri olarak onu boyar
-    painter.drawRect(colorAreaPoint.at(veri+1).x, colorAreaPoint.at(veri+1).y, colorAreaPoint.at(veri+1).width, colorAreaPoint.at(veri+1).height);
+    //painter.drawRect(colorAreaPoint.at(veri+1).x, colorAreaPoint.at(veri+1).y, colorAreaPoint.at(veri+1).width, colorAreaPoint.at(veri+1).height);
 
 
     //painter.drawRect(0, 0, width()/2, height());
 
 
-    scene -> addPixmap(pix);
+    //scene -> addPixmap(pix);
 
 }
 
@@ -207,7 +212,7 @@ void IcMekan::on_pushButton_clicked()
 
     Iui->label->setText("destination vertex = " + QString::number(destinationVertex->getX()) + ", " + QString::number(destinationVertex->getY()));
 
-    clearLines();
+    /*clearLines();
 
     QGraphicsLineItem *line;
     line = drawLine(*locationVertex, g.getVertexList()[0], redPen);
@@ -219,8 +224,32 @@ void IcMekan::on_pushButton_clicked()
         drawedLines.push_front(line);
     }
     line = drawLine(*destinationVertex, g.getVertexList()[g.getVertexList().size()-3], redPen);
-    drawedLines.push_front(line);
+    drawedLines.push_front(line);*/
 
+
+    int veri=FindArea();
+    QTextStream(stdout) << veri << endl;
+    QPixmap pix(1000,1000);
+
+    pix.fill(Qt::transparent);
+
+    QPainter painter(&pix);
+    //painter.setBrush(QColor(255,0,0,127));
+    //painter.eraseRect(rect );
+    //painter.drawRect(xTransRect, yTransRect,widthTransRect ,heightTransRect);
+    painter.setBrush(QColor(0, 255, 0, 127));
+
+    xTransRect=colorAreaPoint.at(veri).x;
+    yTransRect=colorAreaPoint.at(veri).y;
+    widthTransRect=colorAreaPoint.at(veri).width;
+    heightTransRect=colorAreaPoint.at(veri).height;
+
+    //rect= QRect(xTransRect, yTransRect,widthTransRect ,heightTransRect);
+    rect.setRect(xTransRect, yTransRect,widthTransRect ,heightTransRect);
+
+    painter.drawRect(rect);
+
+    scene -> addPixmap(pix);
 
 }
 
@@ -246,13 +275,46 @@ void IcMekan::clearLines()
 }
 int IcMekan::FindArea()
 {
+    QTextStream(stdout) << "size" << colorAreaPoint.size() << endl;
 
     for(int i=0;i<colorAreaPoint.size();i++)
     {
-        if(destinationVertex->getX() > colorAreaPoint.at(i).x && destinationVertex->getY()< colorAreaPoint.at(i).y && destinationVertex->getX() < ( colorAreaPoint.at(i).width +colorAreaPoint.at(i).x )  &&  destinationVertex->getY() < ( colorAreaPoint.at(i).height +colorAreaPoint.at(i).y ))
+        // && (destinationVertex->getY()< colorAreaPoint.at(i).y) && (destinationVertex->getX() < ( colorAreaPoint.at(i).width +colorAreaPoint.at(i).x ))  &&  (destinationVertex->getY() < ( colorAreaPoint.at(i).height +colorAreaPoint.at(i).y ))
+
+        if( destinationVertex->getX() >= colorAreaPoint.at(i).x)
         {
-            return i;
+            if(destinationVertex->getY() >= colorAreaPoint.at(i).y)
+            {
+                if(destinationVertex->getX() < ( colorAreaPoint.at(i).width +colorAreaPoint.at(i).x ))
+                {
+                    if(destinationVertex->getY() < ( colorAreaPoint.at(i).height +colorAreaPoint.at(i).y))
+                    {
+                        QTextStream(stdout) << i << endl;
+                        QTextStream(stdout) << destinationVertex->getX() << endl;
+                        QTextStream(stdout) << colorAreaPoint.at(i).x << endl;
+
+                        QTextStream(stdout) <<"Akilli x gelen " <<destinationVertex->getX() << endl;
+                        QTextStream(stdout) <<"Akilli x array " <<colorAreaPoint.at(i).x << endl;
+                        QTextStream(stdout) <<"Akilli x width " <<colorAreaPoint.at(i).width +colorAreaPoint.at(i).x << endl;
+                        QTextStream(stdout) <<"Akilli y array " <<colorAreaPoint.at(i).y << endl;
+                        QTextStream(stdout) <<"Akilli y height " <<colorAreaPoint.at(i).height +colorAreaPoint.at(i).y << endl;
+                        return i;
+                    }
+                }
+            }
+
         }
+
     }
+    QTextStream(stdout) <<"Disariii " << endl;
+    /*QTextStream(stdout) <<"Salak x gelen " <<destinationVertex->getX() << endl;
+    QTextStream(stdout) <<"Salak x array " <<colorAreaPoint.at(i).x << endl;
+    QTextStream(stdout) <<"Salak x width " <<colorAreaPoint.at(i).width +colorAreaPoint.at(i).x << endl;
+    QTextStream(stdout) <<"Salak y array " <<colorAreaPoint.at(i).y << endl;
+    QTextStream(stdout) <<"Salak y height " <<colorAreaPoint.at(i).height +colorAreaPoint.at(i).y << endl;*/
+    QTextStream(stdout) << destinationVertex->getX() << endl;
+    QTextStream(stdout) << destinationVertex->getY() << endl;
+    return 6;
+
 
 }
