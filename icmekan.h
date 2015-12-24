@@ -98,6 +98,9 @@ private:
     Input input_s;
 
     bool moving;
+    //gidilmek istenen bolge
+    int destinationRect;
+    int StartRect;
 
 };
 

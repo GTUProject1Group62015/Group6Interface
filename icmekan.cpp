@@ -4,7 +4,7 @@
 #include <QGraphicsItemGroup>
 #include <QTextStream>
 
-#define MAPPATH "C:/Users/test/Documents/GitHub/Group6Interface/aa.jpg"
+#define MAPPATH "C:/Users/test/Documents/GitHub/Group6Interface/seyda.jpg"
 #define DMWIDTH 35 // Destination Marker Width
 #define NLWIDTH 15 // Node Location Marker Width
 #define DEVELOPERMODE true
@@ -142,6 +142,8 @@ IcMekan::IcMekan(QWidget *parent) :
     connect(time, SIGNAL(timeout()), this, SLOT(update2()));
     time->start(1000);*/
 
+    //int StartRect;
+
 }
 
 
@@ -181,6 +183,9 @@ void IcMekan::on_pushButton_clicked()
     locationMarker->setRotation(45);
     int veri=FindArea();
     QTextStream(stdout) << veri << endl;
+    //gidilmek istenen  bolge
+    destinationRect=veri;
+
 
     QPixmap pix(1000,1000);
 
@@ -308,6 +313,13 @@ void IcMekan::update2(){
         result = 1;
     }
 
+    locationMarker->setRotation(input_s.d);
+    locationMarker->setPos(input_s.x,input_s.y);
+
+    //Location destination a vardı mı ?
+
+
+
     sprintf(sendData, "%d", result);
     //strcat(buf, sendData);
 
@@ -430,6 +442,9 @@ void IcMekan::connectToServer(){
      RESULT OLARAK 1 2 3 4 5 SAYILARINDAN BİRİSİ DÖNECEK
 
      */
+
+
+
     if (input_s.d < 10 || input_s.d > 350) {
         result = 2;
     } else if (input_s.d >= 10 && input_s.d < 180) {
@@ -437,6 +452,11 @@ void IcMekan::connectToServer(){
     } else {
         result = 1;
     }
+
+    locationMarker->setRotation(input_s.d);
+    locationMarker->setPos(input_s.x,input_s.y);
+    //yanlizca 2 gonder dedigin icin result i 2 yaptim
+    result=2;
 
     sprintf(sendData, "%d", result);
     //strcat(buf, sendData);
@@ -470,11 +490,9 @@ void IcMekan::connectToServer(){
 void IcMekan::on_deneme_clicked()
 {
 
-    /*QBrush blueBrush(Qt::blue);
-
-    QPen blackPen(Qt::black);
-
     locationMarker->setRotation(30);
-    locationMarker->setPolygon(QPolygonF( QVector<QPointF>() << QPointF( 20, -20 ) << QPointF( 0, -20) << QPointF( 10, 20)),blackPen,blueBrush);
-   */
+
+    locationMarker->setPos(30,40);
+    //2 gönder
+
 }
