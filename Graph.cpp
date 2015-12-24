@@ -20,8 +20,9 @@ Graph::Graph(bool direct = true, int num = 0) :
         ++numV;
     }
 }
+
 /*
- void Graph::insert(Edge edge) {
+ void Graph::insert(Edge &edge) {
  if (edge.getSource() > numV) {
  vector<Edge> e;
  data.push_back(e);
@@ -56,17 +57,15 @@ Edge Graph::getEdge(int source, int dest) const {
 }
 
 //not finished....
-void Graph::add(Coor source, Coor dest) {
+void Graph::add(Coor &source, Coor &dest) {
     int source_coor_index = -1;
     int dest_coor_index = -1;
     for (unsigned int i = 0; i < vertexList.size(); ++i) {
-        if (source_coor_index == -1 && vertexList[i].getX() == source.x
-                && vertexList[i].getY() == source.y) {
+        if (source_coor_index == -1 && vertexList[i] == source ) {
             source_coor_index = i;
         }
         if (dest_coor_index == -1
-                && data[i][0].getSourceVertex().getX() == dest.x
-                && data[i][0].getSourceVertex().getY() == dest.y) {
+                && data[i][0].getSourceVertex() == dest) {
             dest_coor_index = i;
         }
 
@@ -104,7 +103,7 @@ void Graph::add(Coor source, Coor dest) {
     }
 }
 
-vector<Vertex> Graph::shortestPath(Vertex start, Vertex finish) {
+vector<Vertex> Graph::shortestPath(const Vertex &start, const Vertex &finish)const {
     int pred[numV];
     double dist[numV];
     vector<Vertex> result;
@@ -122,7 +121,7 @@ vector<Vertex> Graph::shortestPath(Vertex start, Vertex finish) {
 }
 
 /** add vertex*/
-Vertex* Graph::addVertex(Coor coor) {
+Vertex* Graph::addVertex(const Coor &coor) {
     int source_coor_index = -1;
     for (unsigned int i = 0; i < vertexList.size(); ++i) {
         if (source_coor_index == -1 && vertexList[i].getX() == coor.x

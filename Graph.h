@@ -44,7 +44,7 @@ public:
     /** Insert a new edge into the graph.
      @param edge The new edge
      */
-    void insert(Edge edge);
+    void insert(Edge &edge);
 
     /** Determine whether an edge exists.
      @param source The source vertex
@@ -67,22 +67,22 @@ public:
         return data;
     }
 
-    /** insert a new edge into the graph, if given source and dest Coor exist,
-     * no addition
+    /** insert new two Vertex and Edge between given two Vertex into the graph,
+     *  if given source and dest Coor exist, no addition
      * @param source The source coordinate
      * @param dest The destination coordinate
      */
-    void add(Coor source, Coor dest);
+    void add(Coor &source, Coor &dest);
 
     /** return shortest path from start vertex to finish vertex
      * @param start
      * @param finish
      * @return vertex vector
      */
-    vector<Vertex> shortestPath(Vertex start, Vertex finish);
+    vector<Vertex> shortestPath(const Vertex &start,const Vertex &finish)const;
 
     /** add vertex,if addition is successful, return this Vertex reference,else returns 0*/
-    Vertex* addVertex(Coor coor);
+    Vertex* addVertex(const Coor &coor);
 
     /** set edge */
     bool setEdge(Vertex vSource, Vertex vDest);

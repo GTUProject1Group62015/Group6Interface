@@ -14,7 +14,7 @@ class Edge {
 public:
     /*constructors*/
 
-    Edge(Vertex s,Vertex d){
+    Edge(const Vertex &s,const Vertex &d){
         source=s;
         dest=d;
         int x_dis=s.getX()-d.getX();
