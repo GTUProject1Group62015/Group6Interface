@@ -322,38 +322,23 @@ void IcMekan::update2(){
      RESULT OLARAK 1 2 3 4 5 SAYILARINDAN BİRİSİ DÖNECEK
 
      */
-    if (input_s.d < 10 || input_s.d > 350) {
+    /*if (input_s.d < 10 || input_s.d > 350) {
         result = 2;
     } else if (input_s.d >= 10 && input_s.d < 180) {
         result = 3;
     } else {
         result = 1;
-    }
+    }*/
 
     if(destinationRect!=-1)
     {
+        for(int i=0;i<drawedLines.size();i++)
+        {
+            scene->removeItem(drawedLines.at(i));
+        }
+
         veri=input_s.rec;
         cerr<<"-1 değil set edildi \n";
-        /*QPixmap pix(1000,1000);
-
-        pix.fill(Qt::transparent);
-
-        QPainter painter(&pix);
-
-        painter.setBrush(QColor(0, 255, 0, 127));
-
-        xTransRect=colorAreaPoint.at(input_s.rec).x;
-        yTransRect=colorAreaPoint.at(input_s.rec).y;
-        widthTransRect=colorAreaPoint.at(input_s.rec).width;
-        heightTransRect=colorAreaPoint.at(input_s.rec).height;
-
-        rect.setRect(xTransRect, yTransRect,widthTransRect ,heightTransRect);
-
-        painter.drawRect(rect);
-
-        scene -> addPixmap(pix);*/
-
-
 
         //saat yönüne sol dedik
 
@@ -384,7 +369,7 @@ void IcMekan::update2(){
         cerr << "dest "<< destinationRect<<endl;
         for(int i=veri;i<=1 && sag == false;i--)
         {
-             counterSag++;
+            counterSag++;
             if(destinationRect == veri){
                 sag = false;
                 break;
@@ -400,41 +385,55 @@ void IcMekan::update2(){
         }
         cerr <<"counterSag2:"<<counterSag << endl;
 
-        locationMarker->setPos(NodeCoordinate.at(input_s.rec-1).x,NodeCoordinate.at(input_s.rec-1).y);
-
-
-
+        //locationMarker->setPos(NodeCoordinate.at(input_s.rec-1).x,NodeCoordinate.at(input_s.rec-1).y);
+        locationMarker->setPos(WayCoordinate.at(input_s.rec-1).x,WayCoordinate.at(input_s.rec-1).y);
 
         if(counterSag < counterSol)
         {
             cerr<<"Sollll !!!!!!!!"<<endl;
             for(int i=veri;i<=1 && sag == false;i--)
             {
-
-                scene -> addLine(WayCoordinate.at(i).x,WayCoordinate.at(i).y,WayCoordinate.at(i-1).x,WayCoordinate.at(i-1).y,blackPen);
+                drawedLines.push_back(scene -> addLine(WayCoordinate.at(i).x,WayCoordinate.at(i).y,WayCoordinate.at(i-1).x,WayCoordinate.at(i-1).y,blackPen));
                 if(destinationRect == veri){
                     sag = false;
                     break;
                 }
+
+
             }
             cerr <<"counterSag1:"<<counterSag << endl;
             if(sag == true){
-                scene -> addLine(WayCoordinate.at(0).x,WayCoordinate.at(0).y,WayCoordinate.at(10).x,WayCoordinate.at(10).y,blackPen);
+                drawedLines.push_back(scene -> addLine(WayCoordinate.at(0).x,WayCoordinate.at(0).y,WayCoordinate.at(10).x,WayCoordinate.at(10).y,blackPen));
                 for(int i = 10;i>destinationRect;i--){
                     cerr<<"i: " << i<<"dest Rect"<<destinationRect<<endl;
-                    scene -> addLine(WayCoordinate.at(i).x,WayCoordinate.at(i).y,WayCoordinate.at(i-1).x,WayCoordinate.at(i-1).y,blackPen);
+                    drawedLines.push_back(scene -> addLine(WayCoordinate.at(i).x,WayCoordinate.at(i).y,WayCoordinate.at(i-1).x,WayCoordinate.at(i-1).y,blackPen));
+
                 }
 
             }
+            if(veri==1 || veri==9 ||veri==6 || veri==4)
+            {
+                //sola don
+                //sprintf(sendData, "%d", 2);
+                //sleep(1000);
+                sprintf(sendData, "%d", 3);
+            }
+            else
+            {
+                //sprintf(sendData, "%d", 2);
+                //sleep(1000);
+                sprintf(sendData, "%d", 4);
+            }
+
 
         }
         else
         {
-
             cerr<<"Saggg !!!!!!!!"<<endl;
             for(int i=veri-1;i<11 && sol == false ;i++)
             {
-                scene -> addLine(WayCoordinate.at(i).x,WayCoordinate.at(i).y,WayCoordinate.at(i+1).x,WayCoordinate.at(i+1).y,blackPen);
+
+                drawedLines.push_back(scene -> addLine(WayCoordinate.at(i).x,WayCoordinate.at(i).y,WayCoordinate.at(i+1).x,WayCoordinate.at(i+1).y,blackPen));
                 if(veri==destinationRect){
                     sol = false;
                     break;
@@ -442,19 +441,31 @@ void IcMekan::update2(){
             }
             cerr <<"counterSol1:"<<counterSol << endl;
             if(sol == true){
-                scene -> addLine(WayCoordinate.at(10).x,WayCoordinate.at(10).y,WayCoordinate.at(0).x,WayCoordinate.at(0).y,blackPen);
+                //scene -> addLine(WayCoordinate.at(10).x,WayCoordinate.at(10).y,WayCoordinate.at(0).x,WayCoordinate.at(0).y,blackPen);
                 for(int i=0; i<destinationRect;i++)
                 {
-                    scene -> addLine(WayCoordinate.at(i).x,WayCoordinate.at(i).y,WayCoordinate.at(i+1).x,WayCoordinate.at(i+1).y,blackPen);
+                    drawedLines.push_back(scene -> addLine(WayCoordinate.at(i).x,WayCoordinate.at(i).y,WayCoordinate.at(i+1).x,WayCoordinate.at(i+1).y,blackPen));
                 }
              }
             cerr <<"sag:" << counterSag << endl;
+
+            if(veri==1 || veri==9 ||veri==6 || veri==4)
+            {
+                //sola don
+                sprintf(sendData, "%d", 2);
+                //sleep(1000);
+                //sprintf(sendData, "%d", 1);
+            }
+            else
+            {
+                sprintf(sendData, "%d", 2);
+                //sleep(1000);
+                //sprintf(sendData, "%d", 4);
+            }
         }
-
-
     }
 
-    sprintf(sendData, "%d", result);
+    //sprintf(sendData, "%d", result);
     //strcat(buf, sendData);
 
     //strcat(buf, "****");
