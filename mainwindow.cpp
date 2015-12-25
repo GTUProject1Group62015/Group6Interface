@@ -5,11 +5,18 @@
 #include "dismekan.h"
 #include "ui_dismekan.h"
 
+#define PATH "C:/Users/test/Documents/Github/Group6Interface/indir.jpg"
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    scene = new QGraphicsScene(this);
+    scene -> addPixmap(QPixmap(PATH));
+
+    ui->graphicsView->setScene(scene);
+
 }
 
 MainWindow::~MainWindow()

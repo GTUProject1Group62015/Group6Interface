@@ -5,7 +5,7 @@
 #include "icmekan.h"
 #include "ui_icmekan.h"
 
-#define PATH "C:/Users/test/Documents/Group6Interface/disMekanYeni.png"
+#define PATH "C:/Users/test/Documents/Github/Group6Interface/disMekanYeni.png"
 #define DMWIDTH 5 // Destination Marker Width
 
 disMekan::disMekan(QWidget *parent) :
@@ -40,14 +40,14 @@ void disMekan::on_pushButton_clicked()
     //destinationVertex->setVertex(destinationMarker->pos().x() + DMWIDTH/2, destinationMarker->pos().y() + DMWIDTH/2);
     //locationVertex->setVertex(locationMarker->pos().x() + 10, locationMarker->pos().y());
     //dUi->label->setText("destination vertex = " + QString::number(destinationVertex->getX()) + ", " + QString::number(destinationVertex->getY()));
-    dUi->label->setText("x: " + QString::number(destinationMarker->pos().x()) +"y: " + QString::number(destinationMarker->pos().y()));
+    //dUi->label->setText("x: " + QString::number(destinationMarker->pos().x()) +"y: " + QString::number(destinationMarker->pos().y()));
 
 }
 
 
 void disMekan::on_bilMuhButton_clicked()
 {
-    dUi->label->setText("Bilmuh");
+    //dUi->label->setText("Bilmuh");
     IcMekan *icmekanUi = new IcMekan(this);
     icmekanUi->exec();
 }
@@ -64,7 +64,7 @@ void disMekan::mouseReleaseEvent ( QGraphicsSceneMouseEvent  * event )
        dUi->label->setText("Left Button Clicked");
   }*/
 
-    dUi->label->setText("Left Button Clicked");
+    //dUi->label->setText("Left Button Clicked");
 }
 
 /*void QGraphicsView::mousePressEvent(QMouseEvent *event)

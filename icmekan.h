@@ -103,6 +103,7 @@ private:
     int destinationRect=-1;
     int StartRect;
     int veri=-1;
+    int flag =1;
 
 };
 
