@@ -72,6 +72,7 @@ IcMekan::IcMekan(QWidget *parent) :
     WayCoordinate.push_back(Coor(487,456));
     WayCoordinate.push_back(Coor(487,300));
     WayCoordinate.push_back(Coor(534,137));
+    WayCoordinate.push_back(Coor(451,118));
     WayCoordinate.push_back(Coor(324,122));
 
     QTextStream(stdout) << WayCoordinate.size() << endl;
@@ -92,13 +93,7 @@ IcMekan::IcMekan(QWidget *parent) :
 
     g.setEdge(vertexList[0],vertexList[1]);
     g.setEdge(vertexList[1],vertexList[2]);
-    g.setEdge(vertexList[2],vertexList[3]);
-    g.setEdge(vertexList[3],vertexList[4]);
-    g.setEdge(vertexList[4],vertexList[5]);
-    g.setEdge(vertexList[5],vertexList[6]);
-    g.setEdge(vertexList[6],vertexList[7]);
-    g.setEdge(vertexList[7],vertexList[8]);
-    g.setEdge(vertexList[8],vertexList[9]);
+    g.setEdge(vertexList[1],vertexList[3]);
     /*
     g.add(Coor(150,165),Coor(180,164));
     g.add(Coor(180,164),Coor(179,133));
@@ -127,23 +122,22 @@ IcMekan::IcMekan(QWidget *parent) :
     destinationMarker->setFlag(QGraphicsItem::ItemIsMovable);
     destinationVertex = g.addVertex(Coor(destinationMarker->pos().x() + DMWIDTH/2, destinationMarker->pos().y() + DMWIDTH/2));
     connectToServer();
-    cerr << "burası55" << endl;
     // Create User Location Marker
     locationMarker = scene -> addPolygon(QPolygonF( QVector<QPointF>() << QPointF( 20, -20 ) << QPointF( 0, -20) << QPointF( 10, 20)),blackPen,blueBrush);
     locationMarker->setFlag(QGraphicsItem::ItemIsMovable);
     locationMarker->setRotation(input_s.d*-1);
     locationVertex = g.addVertex(Coor(locationMarker->pos().x(), locationMarker->pos().y()));
-cerr << "burası44" << endl;
+
     // Create Node Locations Marker
     if(DEVELOPERMODE)
     {
         // Draw lines between all vertexes
-        vector<Edge> edgeList = g.getAllEdge();
+        /*vector<Edge> edgeList = g.getAllEdge();
         for(uint i = 0; i < edgeList.size()-1; ++i)
         {
             // Add Line for Edges
             drawLine(edgeList[i].getSourceVertex(), edgeList[i].getDestVertex(), blackPen);
-        }
+        }*/
 
         for(uint i = 0; i < vertexList.size(); ++i)
         {
@@ -165,12 +159,10 @@ cerr << "burası44" << endl;
     }
     */
     //seekLocation();
-    cerr << "burası1" << endl;
+
     time=new QTimer(this);
     connect(time, SIGNAL(timeout()), this, SLOT(update2()));
     time->start(1000);
-    //int StartRect;
-    cerr << "burası2" << endl;
 }
 
 
@@ -197,7 +189,7 @@ void IcMekan::on_pushButton_clicked()
     clearLines();
 
     QGraphicsLineItem *line;
-    line = drawLine(*locationVertex, g.getVertexList()[0], redPen);
+    /*line = drawLine(*locationVertex, g.getVertexList()[0], redPen);
     drawedLines.push_front(line);
     for(uint i = 0; i < g.getVertexList().size()-3; ++i)
     {
@@ -206,11 +198,9 @@ void IcMekan::on_pushButton_clicked()
         drawedLines.push_front(line);
     }
     line = drawLine(*destinationVertex, g.getVertexList()[g.getVertexList().size()-3], redPen);
-    drawedLines.push_front(line);
-    locationMarker->setRotation(45);
-    int veri=FindArea();
-    QTextStream(stdout) << veri << endl;
-    //gidilmek istenen  bolge
+    drawedLines.push_front(line);*/
+    //locationMarker->setRotation(45);
+    veri=FindArea();
     destinationRect=veri;
 
 
@@ -233,8 +223,6 @@ void IcMekan::on_pushButton_clicked()
     painter.drawRect(rect);
 
     scene -> addPixmap(pix);
-
-
 }
 
 void IcMekan::seekLocation()
@@ -304,7 +292,9 @@ int IcMekan::FindArea()
 }
 
 void IcMekan::update2(){
-   //int angle= locationMarker->rotation();
+
+    QPen blackPen(Qt::black);
+    int angle= locationMarker->rotation();
     /*int x=locationMarker->pos().x;
     int y=locationMarker->pos().y;
 */
@@ -340,46 +330,131 @@ void IcMekan::update2(){
         result = 1;
     }
 
-    if(input_s.x!=0 && input_s.y!=0 ){
-        locationMarker->setPos(input_s.x,input_s.y);
-    }
-
-    //Location destination a vardı mı ?
-    if(input_s.rec==destinationRect)
+    if(destinationRect!=-1)
     {
-        //reach
-        sprintf(sendData,"%d",2);
+        veri=input_s.rec;
+        cerr<<"-1 değil set edildi \n";
+        /*QPixmap pix(1000,1000);
 
-    }else{
-        vector<Vertex> shortPath;
-        vector<Edge> edgeList;
-        vector<Vertex> list=g.getVertexList();
-        shortPath=g.shortestPath(list[0],list[list.size()-1]);
-        //Control degree
+        pix.fill(Qt::transparent);
 
-        for(int i =0;i<shortPath.size()-1;i++)
+        QPainter painter(&pix);
+
+        painter.setBrush(QColor(0, 255, 0, 127));
+
+        xTransRect=colorAreaPoint.at(input_s.rec).x;
+        yTransRect=colorAreaPoint.at(input_s.rec).y;
+        widthTransRect=colorAreaPoint.at(input_s.rec).width;
+        heightTransRect=colorAreaPoint.at(input_s.rec).height;
+
+        rect.setRect(xTransRect, yTransRect,widthTransRect ,heightTransRect);
+
+        painter.drawRect(rect);
+
+        scene -> addPixmap(pix);*/
+
+
+
+        //saat yönüne sol dedik
+
+        int counterSag=0,counterSol=0;
+
+        bool sol = true;
+        bool sag = true;
+
+        //Soldan giderken bulunun uzaklık
+        for(int i=veri;i<=11 && sol == false ;i++)
         {
-            Edge e=Edge(shortPath[i],shortPath[i+1]);
-            edgeList.push_back(e);
+            counterSol++;
+            if(veri==destinationRect){
+                sol = false;
+                break;
+             }
+        }
+        cerr <<"counterSol1:"<<counterSol << endl;
+        if(sol == true){
+            for(int i=1; i<=destinationRect;i++)
+            {
+                counterSol++;
+            }
+         }
+        cerr <<"counterSol2:"<<counterSol << endl;
+        //Sağdan giderken bulunan uzaklık
+        cerr << "veri:"<< veri << endl;
+        cerr << "dest "<< destinationRect<<endl;
+        for(int i=veri;i<=1 && sag == false;i--)
+        {
+             counterSag++;
+            if(destinationRect == veri){
+                sag = false;
+                break;
+            }
+        }
+        cerr <<"counterSag1:"<<counterSag << endl;
+        if(sag == true){
+
+            for(int i = 11;i>=destinationRect;i--){
+                counterSag++;
+            }
+
+        }
+        cerr <<"counterSag2:"<<counterSag << endl;
+
+        locationMarker->setPos(NodeCoordinate.at(input_s.rec-1).x,NodeCoordinate.at(input_s.rec-1).y);
+
+
+
+
+        if(counterSag < counterSol)
+        {
+            cerr<<"Sollll !!!!!!!!"<<endl;
+            for(int i=veri;i<=1 && sag == false;i--)
+            {
+
+                scene -> addLine(WayCoordinate.at(i).x,WayCoordinate.at(i).y,WayCoordinate.at(i-1).x,WayCoordinate.at(i-1).y,blackPen);
+                if(destinationRect == veri){
+                    sag = false;
+                    break;
+                }
+            }
+            cerr <<"counterSag1:"<<counterSag << endl;
+            if(sag == true){
+                scene -> addLine(WayCoordinate.at(0).x,WayCoordinate.at(0).y,WayCoordinate.at(10).x,WayCoordinate.at(10).y,blackPen);
+                for(int i = 10;i>destinationRect;i--){
+                    cerr<<"i: " << i<<"dest Rect"<<destinationRect<<endl;
+                    scene -> addLine(WayCoordinate.at(i).x,WayCoordinate.at(i).y,WayCoordinate.at(i-1).x,WayCoordinate.at(i-1).y,blackPen);
+                }
+
+            }
+
+        }
+        else
+        {
+
+            cerr<<"Saggg !!!!!!!!"<<endl;
+            for(int i=veri-1;i<11 && sol == false ;i++)
+            {
+                scene -> addLine(WayCoordinate.at(i).x,WayCoordinate.at(i).y,WayCoordinate.at(i+1).x,WayCoordinate.at(i+1).y,blackPen);
+                if(veri==destinationRect){
+                    sol = false;
+                    break;
+                 }
+            }
+            cerr <<"counterSol1:"<<counterSol << endl;
+            if(sol == true){
+                scene -> addLine(WayCoordinate.at(10).x,WayCoordinate.at(10).y,WayCoordinate.at(0).x,WayCoordinate.at(0).y,blackPen);
+                for(int i=0; i<destinationRect;i++)
+                {
+                    scene -> addLine(WayCoordinate.at(i).x,WayCoordinate.at(i).y,WayCoordinate.at(i+1).x,WayCoordinate.at(i+1).y,blackPen);
+                }
+             }
+            cerr <<"sag:" << counterSag << endl;
         }
 
-        if(edgeList[0].getDegree()>input_s.d-22,5 && edgeList[0].getDegree()<input_s.d+22,5)
-        {
-            sprintf(sendData,"%d",4);
-        }
-        else if(edgeList[0].getDegree()<input_s.d-22,5 || edgeList[0].getDegree()<input_s.d+22,5 )
-        {
-            sprintf(sendData,"%d",1);
-
-        }else if(edgeList[0].getDegree()>input_s.d +22,5 || edgeList[0].getDegree()<input_s.d-22,5)
-        {
-            sprintf(sendData,"%d",3);
-        }
 
     }
 
-
-   // sprintf(sendData, "%d", result);
+    sprintf(sendData, "%d", result);
     //strcat(buf, sendData);
 
     //strcat(buf, "****");
@@ -413,8 +488,6 @@ void IcMekan::connectToServer(){
     struct sockaddr_in serverAddress;
     struct hostent *hostInfo;
     char buf[LINE_ARRAY_SIZE];
-#ifndef __gnu_linux__
-
     WSADATA AAA;
 
     //cout << "Enter server host name or IP address: ";
@@ -425,7 +498,6 @@ void IcMekan::connectToServer(){
     // which we'll need later.  It's not important for us what this
     // structure is actually composed of.
     WSAStartup(2,&AAA);
-#endif
     hostInfo = gethostbyname("162.243.185.121");
     if (hostInfo == NULL) {
         cerr << WSAGetLastError() << endl;
@@ -501,9 +573,6 @@ void IcMekan::connectToServer(){
      RESULT OLARAK 1 2 3 4 5 SAYILARINDAN BİRİSİ DÖNECEK
 
      */
-
-    cerr << "yeter " << endl;
-
     if (input_s.d < 10 || input_s.d > 350) {
         result = 2;
     } else if (input_s.d >= 10 && input_s.d < 180) {
@@ -511,14 +580,9 @@ void IcMekan::connectToServer(){
     } else {
         result = 1;
     }
-    cerr <<     "mazhar " << endl;
-    if(input_s.x!=0 && input_s.y!=0 ){
-        locationMarker->setPos(input_s.x,input_s.y);
-    }
 
-    //yanlizca 2 gonder dedigin icin result i 2 yaptim
-    result=2;
-    cerr <<     "patlaaa" << endl;
+
+
     sprintf(sendData, "%d", result);
     //strcat(buf, sendData);
 

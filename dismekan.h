@@ -16,7 +16,6 @@
 #include <QMouseEvent>
 
 
-
 namespace Ui {
 class disMekan;
 //class MyGraphicsScene;

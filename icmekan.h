@@ -100,8 +100,9 @@ private:
 
     bool moving=false;
     //gidilmek istenen bolge
-    int destinationRect;
+    int destinationRect=-1;
     int StartRect;
+    int veri=-1;
 
 };
 
