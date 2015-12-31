@@ -53,6 +53,7 @@ class IcMekan : public QDialog
     Q_OBJECT
 
 public:
+    Vertex returnAreaNode(uint x, uint y);
     int FindArea();
     void seekLocation(); // Get User Location from hardware
     void clearLines(); // Clear all drawed lines
@@ -70,6 +71,7 @@ private slots:
     void on_deneme_clicked();
 
 private:
+    vector<Vertex> vertexList;
     vector<Coor> NodeCoordinate;
     vector<Coor> WayCoordinate;
     vector<Area> colorAreaPoint;

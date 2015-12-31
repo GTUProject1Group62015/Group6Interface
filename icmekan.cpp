@@ -19,6 +19,8 @@ IcMekan::IcMekan(QWidget *parent) :
     QBrush greenBrush(Qt::green);
     QPen blackPen(Qt::black);
 
+    //Area point (0, 0, 0, 0);
+    //colorAreaPoint.push_back(point);
     Area point1 (20, 12, 215, 178);
     colorAreaPoint.push_back(point1);
     Area point2(20, 184, 240, 185);
@@ -62,7 +64,7 @@ IcMekan::IcMekan(QWidget *parent) :
         g.addVertex(NodeCoordinate.at(i));
     }*/
 
-
+    //WayCoordinate.push_back(Coor(0,0));
     WayCoordinate.push_back(Coor(208,142));
     WayCoordinate.push_back(Coor(227,267));
     WayCoordinate.push_back(Coor(227,443));
@@ -86,7 +88,6 @@ IcMekan::IcMekan(QWidget *parent) :
 
 
 
-    vector<Vertex> vertexList;
     vertexList=g.getVertexList();
 
 
@@ -121,7 +122,7 @@ IcMekan::IcMekan(QWidget *parent) :
     destinationMarker = scene -> addEllipse(0,0,DMWIDTH,DMWIDTH,blackPen,redBrush);
     destinationMarker->setFlag(QGraphicsItem::ItemIsMovable);
     destinationVertex = g.addVertex(Coor(destinationMarker->pos().x() + DMWIDTH/2, destinationMarker->pos().y() + DMWIDTH/2));
-    connectToServer();
+    //connectToServer();
     // Create User Location Marker
     locationMarker = scene -> addPolygon(QPolygonF( QVector<QPointF>() << QPointF( 20, -20 ) << QPointF( 0, -20) << QPointF( 10, 20)),blackPen,blueBrush);
     locationMarker->setFlag(QGraphicsItem::ItemIsMovable);
@@ -160,9 +161,9 @@ IcMekan::IcMekan(QWidget *parent) :
     */
     //seekLocation();
 
-    time=new QTimer(this);
+    /*time=new QTimer(this);
     connect(time, SIGNAL(timeout()), this, SLOT(update2()));
-    time->start(1000);
+    time->start(1000);*/
 }
 
 
@@ -171,6 +172,22 @@ IcMekan::~IcMekan()
 {
     delete Iui;
     ::close(socketDescriptor);
+}
+
+Vertex IcMekan::returnAreaNode(uint x, uint y)
+{
+    for(uint i=0;i<colorAreaPoint.size();i++)
+    {
+        if(x<(colorAreaPoint.at(i).x + colorAreaPoint.at(i).width)  && x > colorAreaPoint.at(i).x)
+        {
+            if(y<(colorAreaPoint.at(i).y+colorAreaPoint.at(i).height) && y> colorAreaPoint.at(i).y)
+            {
+                return vertexList.at(i);
+            }
+        }
+    }
+
+
 }
 
 void IcMekan::on_pushButton_clicked()
@@ -202,7 +219,7 @@ void IcMekan::on_pushButton_clicked()
     //locationMarker->setRotation(45);
     veri=FindArea();
     destinationRect=veri;
-
+    QTextStream(stdout) <<" veri: " <<veri<<endl;
 
     QPixmap pix(1000,1000);
 
@@ -223,6 +240,9 @@ void IcMekan::on_pushButton_clicked()
     painter.drawRect(rect);
 
     scene -> addPixmap(pix);
+
+    Vertex destVert= returnAreaNode(destinationMarker->pos().x() + DMWIDTH/2, destinationMarker->pos().y() + DMWIDTH/2);
+    QTextStream(stdout) <<destVert.getX()<<" "<<destVert.getY()<<endl;
 }
 
 void IcMekan::seekLocation()
