@@ -126,7 +126,7 @@ public:
     //tam node un ustune geldiginde 5 gonderdik
     int moveRotation(Vertex source, Vertex next);
 
-
+    int findRotNoCompass(Vertex source, Vertex next);
     //Server kullaným sekli
     //int flag=0;
     //while true

@@ -8,7 +8,9 @@
 #ifndef VERTEX_H_
 #define VERTEX_H_
 
+#include<math.h>
 #include "Coor.h"
+#define PI 3.14159265
 
 class Vertex {
 public:
@@ -64,6 +66,32 @@ public:
      */
     inline bool getMark() {
         return mark;
+    }
+
+    static int calculateAngle(const Vertex &s,const Vertex &d){
+        int degree;
+        double m;
+        int x_dis=s.getX()-d.getX();
+        int y_dis=(s.getY()-d.getY());
+        int result=(x_dis*x_dis)+(y_dis*y_dis);
+        if(x_dis==0)
+        {
+            m=0.0;
+        }
+        else if(y_dis==0)
+        {
+            m=1.0;
+        }
+        else
+        {
+            m=y_dis/x_dis;
+        }
+        degree=atan(m)*180.0/PI;
+        if(y_dis<0)
+        {
+            degree+=180;
+        }
+        return degree;
     }
     virtual ~Vertex(){};
 protected:

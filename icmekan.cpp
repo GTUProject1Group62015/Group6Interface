@@ -19,8 +19,7 @@ IcMekan::IcMekan(QWidget *parent) :
     QBrush greenBrush(Qt::green);
     QPen blackPen(Qt::black);
 
-    //Area point (0, 0, 0, 0);
-    //colorAreaPoint.push_back(point);
+
     Area point1 (20, 12, 215, 178);
     colorAreaPoint.push_back(point1);
     Area point2(20, 184, 240, 185);
@@ -64,8 +63,8 @@ IcMekan::IcMekan(QWidget *parent) :
         g.addVertex(NodeCoordinate.at(i));
     }*/
 
-    //WayCoordinate.push_back(Coor(0,0));
-    WayCoordinate.push_back(Coor(208,142));
+
+    /*WayCoordinate.push_back(Coor(208,142));
     WayCoordinate.push_back(Coor(227,267));
     WayCoordinate.push_back(Coor(227,443));
     WayCoordinate.push_back(Coor(227,590));
@@ -75,7 +74,19 @@ IcMekan::IcMekan(QWidget *parent) :
     WayCoordinate.push_back(Coor(487,300));
     WayCoordinate.push_back(Coor(534,137));
     WayCoordinate.push_back(Coor(451,118));
-    WayCoordinate.push_back(Coor(324,122));
+    WayCoordinate.push_back(Coor(324,122));*/
+
+    WayCoordinate.push_back(Coor(227,120));
+    WayCoordinate.push_back(Coor(227,267));
+    WayCoordinate.push_back(Coor(227,443));
+    WayCoordinate.push_back(Coor(227,605));
+    WayCoordinate.push_back(Coor(349,605));
+    WayCoordinate.push_back(Coor(488,605));
+    WayCoordinate.push_back(Coor(488,456));
+    WayCoordinate.push_back(Coor(488,300));
+    WayCoordinate.push_back(Coor(488,120));
+    WayCoordinate.push_back(Coor(430,120));
+    WayCoordinate.push_back(Coor(324,120));
 
     QTextStream(stdout) << WayCoordinate.size() << endl;
 
@@ -90,19 +101,18 @@ IcMekan::IcMekan(QWidget *parent) :
 
     vertexList=g.getVertexList();
 
-
-
     g.setEdge(vertexList[0],vertexList[1]);
     g.setEdge(vertexList[1],vertexList[2]);
-    g.setEdge(vertexList[1],vertexList[3]);
+    g.setEdge(vertexList[2],vertexList[3]);
+    g.setEdge(vertexList[3],vertexList[4]);
+    g.setEdge(vertexList[4],vertexList[5]);
+    g.setEdge(vertexList[5],vertexList[6]);
+    g.setEdge(vertexList[6],vertexList[7]);
+    g.setEdge(vertexList[7],vertexList[8]);
+    g.setEdge(vertexList[8],vertexList[9]);
+    g.setEdge(vertexList[9],vertexList[10]);
+    g.setEdge(vertexList[10],vertexList[0]);
     /*
-    g.add(Coor(150,165),Coor(180,164));
-    g.add(Coor(180,164),Coor(179,133));
-    g.add(Coor(179,133),Coor(226,165));
-    g.add(Coor(226,165),Coor(223,203));
-    g.add(Coor(198,201),Coor(223,203));
-    g.add(Coor(220,360),Coor(223,203));
-
     // Get Edge List Must Be Implemented
     // Shortest Path Must Return Edge List
     */
@@ -122,7 +132,10 @@ IcMekan::IcMekan(QWidget *parent) :
     destinationMarker = scene -> addEllipse(0,0,DMWIDTH,DMWIDTH,blackPen,redBrush);
     destinationMarker->setFlag(QGraphicsItem::ItemIsMovable);
     destinationVertex = g.addVertex(Coor(destinationMarker->pos().x() + DMWIDTH/2, destinationMarker->pos().y() + DMWIDTH/2));
-    //connectToServer();
+
+    QTextStream(stdout) << "Before Connect" << endl;
+    connectToServer();
+    QTextStream(stdout) << "After Connect" << endl;
     // Create User Location Marker
     locationMarker = scene -> addPolygon(QPolygonF( QVector<QPointF>() << QPointF( 20, -20 ) << QPointF( 0, -20) << QPointF( 10, 20)),blackPen,blueBrush);
     locationMarker->setFlag(QGraphicsItem::ItemIsMovable);
@@ -138,9 +151,9 @@ IcMekan::IcMekan(QWidget *parent) :
         {
             // Add Line for Edges
             drawLine(edgeList[i].getSourceVertex(), edgeList[i].getDestVertex(), blackPen);
-        }*/
+        }
 
-        /*for(uint i = 0; i < vertexList.size(); ++i)
+        for(uint i = 0; i < vertexList.size(); ++i)
         {
             nodeLocationsMarker = scene -> addEllipse(vertexList[i].getX()-NLWIDTH/2,
                                                       vertexList[i].getY()-NLWIDTH/2,
@@ -161,9 +174,10 @@ IcMekan::IcMekan(QWidget *parent) :
     */
     //seekLocation();
 
-    /*time=new QTimer(this);
+    cerr<<"AAAAAAAaa"<<endl;
+    time=new QTimer(this);
     connect(time, SIGNAL(timeout()), this, SLOT(update2()));
-    time->start(1000);*/
+    time->start(1000);
 }
 
 
@@ -192,11 +206,15 @@ Vertex IcMekan::returnAreaNode(uint x, uint y)
 
 void IcMekan::on_pushButton_clicked()
 {
+
     // Print destination location
     //ui->label->setText(QString::number(destinationMarker->pos().x()+ DMWIDTH/2) + ", " + QString::number(destinationMarker->pos().y()+ DMWIDTH/2));
 
+    QBrush greenBrush(Qt::green);
+    QPen blackPen(Qt::black);
     QPen redPen(Qt::red);
     redPen.setWidth(5);
+    blackPen.setWidth(6);
 
     destinationVertex->setVertex(destinationMarker->pos().x() + DMWIDTH/2, destinationMarker->pos().y() + DMWIDTH/2);
     locationVertex->setVertex(locationMarker->pos().x() + 10, locationMarker->pos().y());
@@ -243,6 +261,39 @@ void IcMekan::on_pushButton_clicked()
 
     Vertex destVert= returnAreaNode(destinationMarker->pos().x() + DMWIDTH/2, destinationMarker->pos().y() + DMWIDTH/2);
     QTextStream(stdout) <<destVert.getX()<<" "<<destVert.getY()<<endl;
+
+
+    //uint baslangic=2;
+
+
+    uint baslangic=input_s.rec-1;
+    Vertex bas= vertexList.at(baslangic);
+
+    shortPath= g.shortestPath(bas,destVert);
+
+
+
+    for(uint i = 0; i < shortPath.size()-1; ++i)
+    {
+        // Add Line for Edges
+        drawLine(shortPath[i],shortPath[i+1], blackPen);
+        QTextStream(stdout)<<"Nolarrrrrrr "<<shortPath.at(i).getNo()<<endl;
+    }
+
+    for(uint i = 0; i < shortPath.size(); ++i)
+    {
+        nodeLocationsMarker = scene -> addEllipse(shortPath[i].getX()-NLWIDTH/2,
+                                                  shortPath[i].getY()-NLWIDTH/2,
+                                                  NLWIDTH,
+                                                  NLWIDTH,
+                                                  blackPen,
+                                                  greenBrush);
+    }
+
+
+
+
+
 }
 
 void IcMekan::seekLocation()
@@ -311,7 +362,8 @@ void IcMekan::update2(){
 
     QPen blackPen(Qt::black);
     QBrush greenBrush(Qt::green);
-    int angle= locationMarker->rotation();
+    int location=input_s.rec;
+    int angleMarker= locationMarker->rotation();
     /*int x=locationMarker->pos().x;
     int y=locationMarker->pos().y;
 */
@@ -347,183 +399,81 @@ void IcMekan::update2(){
         result = 1;
     }*/
 
+
     if(destinationRect!=-1)
     {
-        for(int i=0;i<drawedLines.size();i++)
-        {
-            scene->removeItem(drawedLines.at(i));
-        }
-
-        veri=input_s.rec;
-        cerr<<"-1 değil set edildi \n";
-
-        if(input_s.rec==destinationRect)
-            sprintf(sendData, "%d", 2);
+         //reach
+         sprintf(sendData,"%d",2);
+         location=input_s.rec;
+         cerr<<"-1 değil set edildi \n";
 
 
+         if(shortPath.size()-1==location-1)
+         {
+             //vardın
+             sprintf(sendData, "%d", 5);
 
-        //saat yönüne sol dedik
-
-        int counterSag=0,counterSol=0;
-
-        bool sol = true;
-        bool sag = true;
-
-        //Soldan giderken bulunun uzaklık
-        for(int i=veri;i<=11 && sol == false ;i++)
-        {
-            counterSol++;
-            if(veri==destinationRect){
-                sol = false;
-                break;
-             }
-        }
-        cerr <<"counterSol1:"<<counterSol << endl;
-        if(sol == true){
-            for(int i=1; i<=destinationRect;i++)
-            {
-                counterSol++;
-            }
          }
-        cerr <<"counterSol2:"<<counterSol << endl;
-        //Sağdan giderken bulunan uzaklık
-        cerr << "veri:"<< veri << endl;
-        cerr << "dest "<< destinationRect<<endl;
-        for(int i=veri;i<=1 && sag == false;i--)
-        {
-            counterSag++;
-            if(destinationRect == veri){
-                sag = false;
-                break;
-            }
-        }
-        cerr <<"counterSag1:"<<counterSag << endl;
-        if(sag == true){
-
-            for(int i = 11;i>=destinationRect;i--){
-                counterSag++;
-            }
-
-        }
-        cerr <<"counterSag2:"<<counterSag << endl;
-
-        //locationMarker->setPos(NodeCoordinate.at(input_s.rec-1).x,NodeCoordinate.at(input_s.rec-1).y);
-        locationMarker->setPos(WayCoordinate.at(input_s.rec-1).x,WayCoordinate.at(input_s.rec-1).y);
-
-        if(counterSag < counterSol)
-        {
-            cerr<<"Sollll !!!!!!!!"<<endl;
-            for(int i=veri;i<=1 && sag == false;i--)
-            {
-                drawedLines.push_back(scene -> addEllipse(WayCoordinate.at(input_s.rec-1).x,
-                                                          WayCoordinate.at(input_s.rec-1).y,
-                                                          NLWIDTH,
-                                                          NLWIDTH,
-                                                          blackPen,
-                                                          greenBrush));
-                drawedLines.push_back(scene -> addLine(WayCoordinate.at(i).x,WayCoordinate.at(i).y,WayCoordinate.at(i-1).x,WayCoordinate.at(i-1).y,blackPen));
-                if(destinationRect == veri){
-                    sag = false;
-                    break;
-                }
-            }
-            cerr <<"counterSag1:"<<counterSag << endl;
-            if(sag == true){
-
-                drawedLines.push_back(scene -> addEllipse(WayCoordinate.at(input_s.rec-1).x,
-                                                          WayCoordinate.at(input_s.rec-1).y,
-                                                          NLWIDTH,
-                                                          NLWIDTH,
-                                                          blackPen,
-                                                          greenBrush));
-                drawedLines.push_back(scene -> addLine(WayCoordinate.at(0).x,WayCoordinate.at(0).y,WayCoordinate.at(10).x,WayCoordinate.at(10).y,blackPen));
-                for(int i = 10;i>destinationRect;i--){
-                    cerr<<"i: " << i<<"dest Rect"<<destinationRect<<endl;
-                    drawedLines.push_back(scene -> addEllipse(WayCoordinate.at(input_s.rec-1).x,
-                                                              WayCoordinate.at(input_s.rec-1).y,
-                                                              NLWIDTH,
-                                                              NLWIDTH,
-                                                              blackPen,
-                                                              greenBrush));
-                    drawedLines.push_back(scene -> addLine(WayCoordinate.at(i).x,WayCoordinate.at(i).y,WayCoordinate.at(i-1).x,WayCoordinate.at(i-1).y,blackPen));
-
-                }
-
-            }
-            if(veri==1 || veri==9 ||veri==6 || veri==4)
-            {
-                //sola don
-                //sprintf(sendData, "%d", 2);
-                //sleep(1000);
-                sprintf(sendData, "%d", 3);
-                if((angle > 30 && angle <60) || (angle > 180 && angle <210) || (angle > 240 && angle <310) || (angle > 30 && angle <330))
-                {
-                    sprintf(sendData, "%d", 4);
-                }
-                //flag=0;
-                //if()
-                //    sprintf(sendData,"%d",4);
-            }
-            else
-            {
-                //sprintf(sendData, "%d", 2);
-                //sleep(1000);
-                sprintf(sendData, "%d", 4);
-            }
-
-
-        }
-        else
-        {
-            cerr<<"Saggg !!!!!!!!"<<endl;
-            for(int i=veri-1;i<11 && sol == false ;i++)
-            {
-                drawedLines.push_back(scene -> addEllipse(WayCoordinate.at(input_s.rec-1).x,
-                                                          WayCoordinate.at(input_s.rec-1).y,
-                                                          NLWIDTH,
-                                                          NLWIDTH,
-                                                          blackPen,
-                                                          greenBrush));
-                drawedLines.push_back(scene -> addLine(WayCoordinate.at(i).x,WayCoordinate.at(i).y,WayCoordinate.at(i+1).x,WayCoordinate.at(i+1).y,blackPen));
-                if(veri==destinationRect){
-                    sol = false;
-                    break;
-                 }
-            }
-            cerr <<"counterSol1:"<<counterSol << endl;
-            if(sol == true){
-                //scene -> addLine(WayCoordinate.at(10).x,WayCoordinate.at(10).y,WayCoordinate.at(0).x,WayCoordinate.at(0).y,blackPen);
-                for(int i=0; i<destinationRect;i++)
-                {
-                    drawedLines.push_back(scene -> addEllipse(WayCoordinate.at(input_s.rec-1).x,
-                                                              WayCoordinate.at(input_s.rec-1).y,
-                                                              NLWIDTH,
-                                                              NLWIDTH,
-                                                              blackPen,
-                                                              greenBrush));
-                    drawedLines.push_back(scene -> addLine(WayCoordinate.at(i).x,WayCoordinate.at(i).y,WayCoordinate.at(i+1).x,WayCoordinate.at(i+1).y,blackPen));
-                }
+         cerr<<"AngleResult1 "<<angleResult<<endl;
+         //Onceden yon dogru ise
+         if(angleResult==2 && flag2==0)
+         {
+             cerr<<"AngleResult2 "<<angleResult<<endl;
+             QTextStream(stdout)<<"Onceden 2 geldi "<<endl;
+             if(shortPath.at(shortPath.size()-1).getNo()==location-1)
+             {
+                 //vardın
+                 sprintf(sendData, "%d", 5);
+                 flag=5;
+                 flag2=0;
              }
-            cerr <<"sag:" << counterSag << endl;
+             else
+             {
+                 cerr<<"4 gondermem lazım"<<endl;
+                 sprintf(sendData, "%d", 4);
+                 flag=4;
+                 flag2=0;
+             }
 
-            if(veri==1 || veri==9 ||veri==6 || veri==4)
-            {
-                //sola don
-                sprintf(sendData, "%d", 1);
+         }
 
-                //sprintf(sendData, "%d", 4);
-            }
-            else
-            {
-                sprintf(sendData, "%d", 4);
-                //sleep(1000);
-                //sprintf(sendData, "%d", 4);
-            }
-        }
+         cerr<<"flag: "<<flag<<" flag2: "<<flag2<<endl;
+         //if((flag2==-1) && (flag==4 || flag==5))
+         if(flag2==-1)
+         {
+
+             for(int i=0;i<shortPath.size()-1;i++)
+             {
+                 QTextStream(stdout) <<"location: "<<location<<" numara "<<i<<" getNo: "<<shortPath.at(i).getNo()<<endl;
+                 if((location-1)==shortPath.at(i).getNo())
+                 {
+                     //angleVertex=calculateAngle(shortPath[i],shortPath[i+1]);
+                     angleResult=g.findRotation(shortPath[i],shortPath[i+1],(angleMarker*-1));
+                     QTextStream(stdout) <<" bolge "<<shortPath.at(i).getNo()<<" aci: "<<angleResult;
+                     sprintf(sendData, "%d", angleResult);
+                     QTextStream(stdout) <<" gonderilen aci: "<<angleResult;
+                 }
+             }
+
+             QTextStream(stdout)<<"Bolgee: "<<input_s.rec<<"size: "<<WayCoordinate.size()<<endl;
+             flag2=0;
+             flag=1;
+         }
+         locationMarker->setPos(WayCoordinate.at(input_s.rec-1).x,WayCoordinate.at(input_s.rec-1).y);
+
+         if(flag==4 || flag==5)
+         {
+             cerr<<"flag2 yi degistirdim"<<endl;
+             flag2=-1;
+         }
+         if(angleResult!=2)
+         {
+            flag2=-1;
+         }
+
     }
 
-    //sprintf(sendData, "%d", result);
-    //strcat(buf, sendData);
+
 
     //strcat(buf, "****");
     //cerr << "Modified: " << buf << "\n";
@@ -545,7 +495,7 @@ void IcMekan::update2(){
     //while (cin.get(c) && c != '\n')
     //  ;
 
-    locationMarker->setRotation(input_s.d*-1);
+    locationMarker->setRotation((input_s.d)*-1);
 
 
     scene->update();
@@ -691,3 +641,17 @@ void IcMekan::on_deneme_clicked()
     //2 gönder
 
 }
+
+
+/*void IcMekan::paintEvent(QPaintEvent *event)
+{
+    QRect rect = event->rect();
+    QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing);
+    painter.setPen(Qt::black);
+
+    // painter. dersin bir çok şeyi yazıp çizebilirsin smile ifade simgesi
+    painter.drawText(rect, Qt::AlignCenter,
+                      "Data");
+    painter.drawRect(rect);
+}*/

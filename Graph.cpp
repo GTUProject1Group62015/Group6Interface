@@ -10,6 +10,7 @@
 #include "DijkstrasAlgorithm.h"
 #include <cstddef>
 #include <cmath>
+#include <iostream>
 using namespace std;
 
 Graph::Graph(bool direct = true, int num = 0) :
@@ -226,7 +227,7 @@ int Graph::findRotation(Vertex source, Vertex next, double rotation)
 
     //m= y/x;
 
-
+    cerr<<"FindRotation\n";
 
 
     //next source un solundaysa
@@ -234,8 +235,9 @@ int Graph::findRotation(Vertex source, Vertex next, double rotation)
     if(next.getX()<source.getX() && next.getY()==source.getY())
     {
 
+        cerr<<"next source un solunda\n";
 
-        if((rotation>BATI -15) && (rotation < BATI +15))
+        if((rotation>BATI -FARK) && (rotation < BATI +FARK))
         {
             return 2;
         }
@@ -262,7 +264,10 @@ int Graph::findRotation(Vertex source, Vertex next, double rotation)
 
     else if(next.getX()==source.getX() && next.getY()<source.getY())
     {
-        if((rotation>KUZEY -15) || (rotation< ZERO +15))
+
+        cerr<<"next source un haritada yukarısında\n";
+
+        if((rotation>KUZEY -FARK) || (rotation< ZERO +FARK))
         {
             return 2;
         }
@@ -288,7 +293,11 @@ int Graph::findRotation(Vertex source, Vertex next, double rotation)
 
     else if(next.getX()>source.getX() && next.getY()==source.getY())
     {
-        if((rotation>DOGU -15) && (rotation < DOGU +15))
+
+        cerr<<"next source un haritada saginda\n";
+        cerr<<"rotation "<<rotation<<"\n";
+        cerr<<"DOGU: "<<DOGU<<" BATI: "<<BATI<<" KUZEY: "<<KUZEY<<" GUNEY"<<GUNEY<<endl;
+        if((rotation>DOGU -FARK) && (rotation < DOGU +FARK))
         {
             return 2;
         }
@@ -314,7 +323,9 @@ int Graph::findRotation(Vertex source, Vertex next, double rotation)
 
     else if(next.getX()==source.getX() && next.getY()>source.getY())
     {
-        if((rotation>GUNEY -15) && (rotation < GUNEY +15))
+        cerr<<"next source un haritada asagisinda\n";
+
+        if((rotation>GUNEY -FARK) && (rotation < GUNEY +FARK))
         {
             return 2;
         }
@@ -351,6 +362,43 @@ int Graph::moveRotation(Vertex source, Vertex next)
     }
 }
 
+
+int findRotNoCompass(Vertex source, Vertex next)
+{
+    cerr<<"FindRotation No Compass\n";
+
+    //next source un solundaysa
+
+    if(next.getX()<source.getX() && next.getY()==source.getY())
+    {
+        cerr<<"next source un solunda\n";
+    }
+
+    //next source un ilerisindeyse --> haritada yukarisindaysa
+
+    else if(next.getX()==source.getX() && next.getY()<source.getY())
+    {
+        cerr<<"next source un haritada yukarısında\n";
+    }
+
+    //next source un sagindaysa
+
+    else if(next.getX()>source.getX() && next.getY()==source.getY())
+    {
+        cerr<<"next source un haritada saginda\n";
+    }
+
+    //next source un gerisindeyse --> haritada asagisinda
+
+    else if(next.getX()==source.getX() && next.getY()>source.getY())
+    {
+        cerr<<"next source un haritada asagisinda\n";
+    }
+
+    return 0;
+
+}
+
 /*void moveCompass(void)
 {
     double rotation;
@@ -383,3 +431,6 @@ vector<Edge> Graph::getAllEdge(){
 Coor gpsCoorToPixel(int x,int y){
 
 }
+
+
+

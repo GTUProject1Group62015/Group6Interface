@@ -53,6 +53,7 @@ class IcMekan : public QDialog
     Q_OBJECT
 
 public:
+    //void paintEvent(QPaintEvent *event);
     Vertex returnAreaNode(uint x, uint y);
     int FindArea();
     void seekLocation(); // Get User Location from hardware
@@ -71,6 +72,7 @@ private slots:
     void on_deneme_clicked();
 
 private:
+    vector<Vertex> shortPath;
     vector<Vertex> vertexList;
     vector<Coor> NodeCoordinate;
     vector<Coor> WayCoordinate;
@@ -105,7 +107,10 @@ private:
     int destinationRect=-1;
     int StartRect;
     int veri=-1;
-    int flag =1;
+    int flag =4;
+    int flag2=-1;
+
+    int angleResult=0;
 
 };
 

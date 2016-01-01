@@ -162,17 +162,21 @@ public:
      * return coor
      */
     static Coor gpsCoorToPixel(int x, int y) {
-        double gps_angle = calculateAngle(Coor(56954, 40992), Coor(56298, 39165))
-                - calculateAngle(Coor(56954, 40992), Coor(x, y));
+        double gps_angle = Input::calculateAngle(Coor(56954, 40992), Coor(56298, 39165))
+                - Input::calculateAngle(Coor(56954, 40992), Coor(x, y));
+        if(gps_angle<0)
+        {
+            gps_angle+=360;
+        }
         double gps_distance = sqrt(
                 pow(56954 - x, 2.0) + pow(40992 - y, 2.0));
         int pixel_distance = gps_distance / _one_pixel_to_gps;
-        int new_x = sin(gps_angle * PII / 180.0) * pixel_distance;
-        int new_y = cos(gps_angle * PII / 180.0) * pixel_distance;
+        int new_x = sin(gps_angle * (PII / 180.0)) * pixel_distance;
+        int new_y = cos(gps_angle * (PII / 180.0)) * pixel_distance;
         return Coor(641 + new_x, 200 + new_y);
     }
 
-    static double calculateAngle(const Coor &c1, const Coor &c2) {
+    static double calculateAngle(const Coor &c1, const Coor &c2,bool gps=false) {
         double degree;
         double m;
         int x_dis = c1.x - c2.x;
@@ -184,7 +188,10 @@ public:
         } else {
             m = y_dis / x_dis;
         }
-        degree = atan(m) * 180.0 / PII;
+        if(gps==true){
+            m*=-1.0;
+        }
+        degree = atan(m) *( 180.0 / PII);
         if (y_dis < 0) {
             degree += 180;
         }
