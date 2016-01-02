@@ -55,6 +55,7 @@
 #define TWO_TO_ONE 19
 #define ONE_TO_ELEVEN 285
 
+#define flagValue 2
 
 
 

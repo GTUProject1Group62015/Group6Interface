@@ -14,6 +14,18 @@ using namespace std;
 
 class Graph {
 public:
+    int rotationFlag=0;
+
+    bool birIkiFlag=true;
+    bool dortBesFlag =true;
+    bool altiYediFlag =true;
+    bool dokuzOnFlag =true;
+
+    bool birOnBirFlag=true;
+    bool dokuzSekizFlag=true;
+    bool altiBesFlag=true;
+    bool dortUcFlag=true;
+
 
     /*default constructor*/
     Graph() {
@@ -126,7 +138,8 @@ public:
     //tam node un ustune geldiginde 5 gonderdik
     int moveRotation(Vertex source, Vertex next);
 
-    int findRotNoCompass(int source, int next, double rotation);
+    int findRotNoCompass(int source, int next, double rotation, int beforeNode, int startNode);
+    int findRotWithArea(int source, int next, double rotation);
     //Server kullaným sekli
     //int flag=0;
     //while true

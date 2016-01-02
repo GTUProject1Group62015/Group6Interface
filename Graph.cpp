@@ -11,6 +11,7 @@
 #include <cstddef>
 #include <cmath>
 #include <iostream>
+#include "Define.h"
 using namespace std;
 
 Graph::Graph(bool direct = true, int num = 0) :
@@ -363,11 +364,12 @@ int Graph::moveRotation(Vertex source, Vertex next)
 }
 
 
-int Graph::findRotNoCompass(int source, int next, double rotation)
+int Graph::findRotWithArea(int source, int next, double rotation)
 {
     //1 den 2 ye gidiyorsa
     if(source==0 && next==1)
     {
+        cerr<<" 1 den 2 ye gidiyorsa "<<"Rotation: "<<rotation<<endl;
         if(rotation<ONE_TO_TWO + FARK && rotation > ONE_TO_TWO - FARK)
         {
             return 2;
@@ -384,6 +386,7 @@ int Graph::findRotNoCompass(int source, int next, double rotation)
     //2 den 3 e gidiyorsa
     else if(source==1 && next==2)
     {
+        cerr<<" 2 den 3 e gidiyorsa "<<"Rotation: "<<rotation<<endl;
         if(rotation<TWO_TO_THREE + FARK && rotation > TWO_TO_THREE - FARK)
         {
             return 2;
@@ -401,6 +404,7 @@ int Graph::findRotNoCompass(int source, int next, double rotation)
     //3 den 4 e gidiyorsa
     else if(source==2 && next==3)
     {
+        cerr<<" 3 den 4 e gidiyorsa "<<"Rotation: "<<rotation<<endl;
         if(rotation<THREE_TO_FOUR + FARK && rotation > THREE_TO_FOUR - FARK)
         {
             return 2;
@@ -417,6 +421,7 @@ int Graph::findRotNoCompass(int source, int next, double rotation)
     //4 den 5 e gidiyorsa
     else if(source==3 && next==4)
     {
+        cerr<<" 4 den 5 e gidiyorsa "<<"Rotation: "<<rotation<<endl;
         if(rotation<FOUR_TO_FIVE + FARK && rotation > FOUR_TO_FIVE - FARK)
         {
             return 2;
@@ -433,6 +438,7 @@ int Graph::findRotNoCompass(int source, int next, double rotation)
     }//5 den 6 ya gidiyorsa
     else if(source==4 && next==5)
     {
+        cerr<<" 5 den 6 ya gidiyorsa "<<"Rotation: "<<rotation<<endl;
         if(rotation<FIVE_TO_SIX + FARK && rotation > FIVE_TO_SIX - FARK)
         {
             return 2;
@@ -450,6 +456,7 @@ int Graph::findRotNoCompass(int source, int next, double rotation)
     //6 dan 7 ye gidiyorsa
     else if(source==5 && next==6)
     {
+        cerr<<" 6 dan 7 ye gidiyorsa "<<"Rotation: "<<rotation<<endl;
         if((rotation<SIX_TO_SEVEN + FARK && rotation > SIX_TO_SEVEN - FARK) || rotation>350)
         {
             return 2;
@@ -467,6 +474,7 @@ int Graph::findRotNoCompass(int source, int next, double rotation)
     //7 den 8 e gidiyorsa
     else if(source==6 && next==7)
     {
+        cerr<<" 7 den 8 e gidiyorsa "<<"Rotation: "<<rotation<<endl;
         if((rotation<SEVEN_TO_EIGHT + FARK && rotation > SEVEN_TO_EIGHT - FARK) || rotation>350)
         {
             return 2;
@@ -483,6 +491,7 @@ int Graph::findRotNoCompass(int source, int next, double rotation)
     //8 den 9 a gidiyorsa
     else if(source==7 && next==8)
     {
+        cerr<<" 8 den 9 a gidiyorsa "<<"Rotation: "<<rotation<<endl;
         if((rotation<EIGHT_TO_NINE + FARK && rotation > EIGHT_TO_NINE - FARK) || rotation<=20)
         {
             return 2;
@@ -496,9 +505,10 @@ int Graph::findRotNoCompass(int source, int next, double rotation)
             return 1;
         }
     }
-    //9 dan 10 e gidiyorsa
+    //9 dan 10 a gidiyorsa
     else if(source==8 && next==9)
     {
+        cerr<<" 9 dan 10 a gidiyorsa "<<"Rotation: "<<rotation<<endl;
         if(rotation<NINE_TO_TEN + FARK && rotation > NINE_TO_TEN - FARK)
         {
             return 2;
@@ -515,6 +525,7 @@ int Graph::findRotNoCompass(int source, int next, double rotation)
     //10 dan 11 e gidiyorsa
     else if(source==9 && next==10)
     {
+        cerr<<" 10 dan 11 e gidiyorsa "<<"Rotation: "<<rotation<<endl;
         if(rotation<TEN_TO_ELEVEN + FARK && rotation > TEN_TO_ELEVEN - FARK)
         {
             return 2;
@@ -531,6 +542,7 @@ int Graph::findRotNoCompass(int source, int next, double rotation)
     //11 den 1 e gidiyorsa
     else if(source==10 && next==0)
     {
+        cerr<<" 11 den 1 e gidiyorsa "<<"Rotation: "<<rotation<<endl;
         if(rotation<ELEVEN_TO_ONE + FARK && rotation > ELEVEN_TO_ONE - FARK)
         {
             return 2;
@@ -552,6 +564,7 @@ int Graph::findRotNoCompass(int source, int next, double rotation)
     //11 den 10 a gidiyorsa
     else if(source==10 && next==9)
     {
+        cerr<<" 11 den 10 a gidiyorsa "<<"Rotation: "<<rotation<<endl;
         if(rotation<ELEVEN_TO_TEN + FARK && rotation > ELEVEN_TO_TEN - FARK)
         {
             return 2;
@@ -568,6 +581,7 @@ int Graph::findRotNoCompass(int source, int next, double rotation)
     //10 dan 9 a gidiyorsa
     else if(source==9 && next==8)
     {
+        cerr<<" 10 dan 9 a gidiyorsa "<<"Rotation: "<<rotation<<endl;
         if(rotation<TEN_TO_NINE + FARK && rotation > TEN_TO_NINE - FARK)
         {
             return 2;
@@ -584,6 +598,7 @@ int Graph::findRotNoCompass(int source, int next, double rotation)
     //9 dan 8 e gidiyorsa
     else if(source==8 && next==7)
     {
+        cerr<<" 9 dan 8 e gidiyorsa "<<"Rotation: "<<rotation<<endl;
         if(rotation<NINE_TO_EIGHT + FARK && rotation > NINE_TO_EIGHT - FARK)
         {
             return 2;
@@ -600,6 +615,7 @@ int Graph::findRotNoCompass(int source, int next, double rotation)
     //8 den 7 ye gidiyorsa
     else if(source==7 && next==6)
     {
+        cerr<<" 8 den 7 ye gidiyorsa "<<"Rotation: "<<rotation<<endl;
         if(rotation<EIGHT_TO_SEVEN + FARK && rotation > EIGHT_TO_SEVEN - FARK)
         {
             return 2;
@@ -616,6 +632,7 @@ int Graph::findRotNoCompass(int source, int next, double rotation)
     //7 den 6 ya gidiyorsa
     else if(source==6 && next==5)
     {
+        cerr<<" 7 den 6 ya gidiyorsa "<<"Rotation: "<<rotation<<endl;
         if(rotation<SEVEN_TO_SIX + FARK && rotation > SEVEN_TO_SIX - FARK)
         {
             return 2;
@@ -632,6 +649,7 @@ int Graph::findRotNoCompass(int source, int next, double rotation)
     //6 dan 5 e gidiyorsa
     else if(source==5 && next==4)
     {
+        cerr<<" 6 dan 5 e gidiyorsa "<<"Rotation: "<<rotation<<endl;
         if(rotation<SIX_TO_FIVE + FARK && rotation > SIX_TO_FIVE - FARK)
         {
             return 2;
@@ -648,6 +666,7 @@ int Graph::findRotNoCompass(int source, int next, double rotation)
     //5 den 4 e gidiyorsa
     else if(source==4 && next==3)
     {
+        cerr<<" 5 den 4 e gidiyorsa "<<"Rotation: "<<rotation<<endl;
         if(rotation<FIVE_TO_FOUR + FARK && rotation > FIVE_TO_FOUR - FARK)
         {
             return 2;
@@ -664,6 +683,7 @@ int Graph::findRotNoCompass(int source, int next, double rotation)
     //4 den 3 e gidiyorsa
     else if(source==3 && next==2)
     {
+        cerr<<" 4 den 3 e gidiyorsa "<<"Rotation: "<<rotation<<endl;
         if((rotation<FOUR_TO_THREE + FARK && rotation > FOUR_TO_THREE - FARK) || rotation>=340)
         {
             return 2;
@@ -680,6 +700,7 @@ int Graph::findRotNoCompass(int source, int next, double rotation)
     //3 den 2 ye gidiyorsa
     else if(source==2 && next==1)
     {
+        cerr<<" 3 den 2 ye gidiyorsa "<<"Rotation: "<<rotation<<endl;
         if((rotation<THREE_TO_TWO + FARK && rotation > THREE_TO_TWO - FARK) || rotation>=350)
         {
             return 2;
@@ -696,6 +717,7 @@ int Graph::findRotNoCompass(int source, int next, double rotation)
     //2 den 1 e gidiyorsa
     else if(source==1 && next==0)
     {
+        cerr<<" 2 den 1 e gidiyorsa "<<"Rotation: "<<rotation<<endl;
         if((rotation<TWO_TO_ONE + FARK && rotation > TWO_TO_ONE - FARK) || rotation>=350)
         {
             return 2;
@@ -712,6 +734,7 @@ int Graph::findRotNoCompass(int source, int next, double rotation)
     //1 den 11 e gidiyorsa
     else if(source==0 && next==10)
     {
+        cerr<<" 1 den 11 e gidiyorsa "<<"Rotation: "<<rotation<<endl;
         if(rotation<ONE_TO_ELEVEN + FARK && rotation > ONE_TO_ELEVEN - FARK)
         {
             return 2;
@@ -729,6 +752,447 @@ int Graph::findRotNoCompass(int source, int next, double rotation)
     return 0;
 
 }
+
+
+
+
+
+int Graph::findRotNoCompass(int source, int next, double rotation, int beforeNode, int startNode)
+{
+    cerr<<"aaaaa"<<endl;
+    //1 den 2 ye gidiyorsa
+    if(source==0 && next==1)
+    {
+        cerr<<" 1 den 2 ye gidiyorsa "<<endl;
+        cerr<<"rotation flag: "<<rotationFlag<<endl;
+
+        if(startNode==0)
+        {
+            return 4;
+        }
+        else if(beforeNode==10)
+        {
+            if(rotationFlag < flagValue && birIkiFlag)
+            {
+                rotationFlag++;
+                return 1;
+            }
+            else if(rotationFlag>= flagValue)
+            {
+                rotationFlag=0;
+                birIkiFlag=false;
+                return 4;
+            }
+            else if(birIkiFlag==false)
+            {
+                return 4;
+            }
+        }
+        else
+        {
+            cerr<<"Else oldu nasıl oldu pof oldu"<<endl;
+            return 4;
+        }
+        return 0;
+    }
+    //2 den 3 e gidiyorsa
+    else if(source==1 && next==2)
+    {
+        cerr<<" 2 den 3 e gidiyorsa "<<endl;
+        if(rotationFlag==flagValue)
+        {
+            rotationFlag=0;
+        }
+        return 4;
+
+    }
+    //3 den 4 e gidiyorsa
+    else if(source==2 && next==3)
+    {
+        cerr<<" 3 den 4 e gidiyorsa "<<endl;
+        if(rotationFlag==flagValue)
+        {
+            rotationFlag=0;
+        }
+        return 4;
+    }
+    //4 den 5 e gidiyorsa
+    else if(source==3 && next==4)
+    {
+        cerr<<" 4 den 5 e gidiyorsa sola don"<<endl;
+
+        cerr<<"rotation flag: "<<rotationFlag<<endl;
+        if(startNode==3)
+        {
+            return 4;
+        }
+        else if(beforeNode==2)
+        {
+
+            if(rotationFlag < flagValue && dortBesFlag)
+            {
+                rotationFlag++;
+                return 1;
+            }
+            else if(rotationFlag>= flagValue)
+            {
+                rotationFlag=0;
+                dortBesFlag=false;
+                return 4;
+            }
+            else if(dortBesFlag==false)
+            {
+                return 4;
+            }
+        }
+        else
+        {
+            cerr<<"Else oldu nasıl oldu pof oldu"<<endl;
+            return 4;
+        }
+        return 0;
+    }//5 den 6 ya gidiyorsa
+    else if(source==4 && next==5)
+    {
+        cerr<<" 5 den 6 ya gidiyorsa "<<endl;
+        if(rotationFlag==flagValue)
+        {
+            rotationFlag=0;
+        }
+        return 4;
+    }
+    //6 dan 7 ye gidiyorsa
+    else if(source==5 && next==6)
+    {
+        cerr<<" 6 dan 7 ye gidiyorsa "<<endl;
+        cerr<<"rotation flag: "<<rotationFlag<<endl;
+
+        if(startNode==5)
+        {
+            return 4;
+        }
+        else if(beforeNode==4)
+        {
+            if(rotationFlag < flagValue && altiYediFlag)
+            {
+                rotationFlag++;
+                return 1;
+            }
+            else if(rotationFlag>= flagValue)
+            {
+                rotationFlag=0;
+                altiYediFlag=false;
+                return 4;
+            }
+            else if(altiYediFlag==false)
+            {
+                return 4;
+            }
+        }
+        else
+        {
+            cerr<<"Else oldu nasıl oldu pof oldu"<<endl;
+            return 4;
+        }
+        return 0;
+    }
+    //7 den 8 e gidiyorsa
+    else if(source==6 && next==7)
+    {
+        cerr<<" 7 den 8 e gidiyorsa "<<endl;
+        if(rotationFlag==flagValue)
+        {
+            rotationFlag=0;
+        }
+        return 4;
+    }
+    //8 den 9 a gidiyorsa
+    else if(source==7 && next==8)
+    {
+        cerr<<" 8 den 9 a gidiyorsa "<<endl;
+        if(rotationFlag==flagValue)
+        {
+            rotationFlag=0;
+        }
+        return 4;
+    }
+    //9 dan 10 a gidiyorsa
+    else if(source==8 && next==9)
+    {
+        cerr<<" 9 dan 10 a gidiyorsa "<<endl;
+        cerr<<"rotation flag: "<<rotationFlag<<endl;
+
+        if(startNode==8)
+        {
+            return 4;
+        }
+        else if(beforeNode==7)
+        {
+            if(rotationFlag < flagValue && dokuzOnFlag)
+            {
+                rotationFlag++;
+                return 1;
+            }
+            else if(rotationFlag>= flagValue)
+            {
+                rotationFlag=0;
+                dokuzOnFlag=false;
+                return 4;
+            }
+            else if(dokuzOnFlag==false)
+            {
+                return 4;
+            }
+        }
+        else
+        {
+            cerr<<"Else oldu nasıl oldu pof oldu"<<endl;
+            return 4;
+        }
+        return 0;
+    }
+    //10 dan 11 e gidiyorsa
+    else if(source==9 && next==10)
+    {
+        cerr<<" 10 dan 11 e gidiyorsa "<<endl;
+        if(rotationFlag==flagValue)
+        {
+            rotationFlag=0;
+        }
+        return 4;
+    }
+    //11 den 1 e gidiyorsa
+    else if(source==10 && next==0)
+    {
+        cerr<<" 11 den 1 e gidiyorsa "<<endl;
+        if(rotationFlag==flagValue)
+        {
+            rotationFlag=0;
+        }
+        return 4;
+    }
+
+
+    /*********************************/
+
+
+    //11 den 10 a gidiyorsa
+    else if(source==10 && next==9)
+    {
+        cerr<<" 11 den 10 a gidiyorsa "<<endl;
+        if(rotationFlag==flagValue)
+        {
+            rotationFlag=0;
+        }
+        return 4;
+    }
+    //10 dan 9 a gidiyorsa
+    else if(source==9 && next==8)
+    {
+        cerr<<" 10 dan 9 a gidiyorsa "<<endl;
+        if(rotationFlag==flagValue)
+        {
+            rotationFlag=0;
+        }
+        return 4;
+    }
+    //9 dan 8 e gidiyorsa
+    else if(source==8 && next==7)
+    {
+        cerr<<" 9 dan 8 e gidiyorsa "<<endl;
+        cerr<<"rotation flag: "<<rotationFlag<<endl;
+
+        if(startNode==8)
+        {
+            return 4;
+        }
+        else if(beforeNode==9)
+        {
+            if(rotationFlag < flagValue && dokuzSekizFlag)
+            {
+                rotationFlag++;
+                return 3;
+            }
+            else if(rotationFlag>= flagValue)
+            {
+                rotationFlag=0;
+                dokuzSekizFlag=false;
+                return 4;
+            }
+            else if(dokuzSekizFlag==false)
+            {
+                return 4;
+            }
+        }
+        else
+        {
+            cerr<<"Else oldu nasıl oldu pof oldu"<<endl;
+            return 4;
+        }
+        return 0;
+
+    }
+    //8 den 7 ye gidiyorsa
+    else if(source==7 && next==6)
+    {
+        cerr<<" 8 den 7 ye gidiyorsa "<<endl;
+        if(rotationFlag==flagValue)
+        {
+            rotationFlag=0;
+        }
+        return 4;
+    }
+    //7 den 6 ya gidiyorsa
+    else if(source==6 && next==5)
+    {
+        cerr<<" 7 den 6 ya gidiyorsa "<<endl;
+        if(rotationFlag==flagValue)
+        {
+            rotationFlag=0;
+        }
+        return 4;
+    }
+    //6 dan 5 e gidiyorsa
+    else if(source==5 && next==4)
+    {
+        cerr<<" 6 dan 5 e gidiyorsa "<<endl;
+        cerr<<"rotation flag: "<<rotationFlag<<endl;
+        if(startNode==5)
+        {
+            return 4;
+        }
+        else if(beforeNode==6)
+        {
+            if(rotationFlag < flagValue && altiBesFlag)
+            {
+                rotationFlag++;
+                return 3;
+            }
+            else if(rotationFlag>= flagValue)
+            {
+                rotationFlag=0;
+                altiBesFlag=false;
+                return 4;
+            }
+            else if(altiBesFlag==false)
+            {
+                return 4;
+            }
+        }
+        else
+        {
+            cerr<<"Else oldu nasıl oldu pof oldu"<<endl;
+            return 4;
+        }
+        return 0;
+    }
+    //5 den 4 e gidiyorsa
+    else if(source==4 && next==3)
+    {
+        cerr<<" 5 den 4 e gidiyorsa "<<endl;
+        if(rotationFlag==flagValue)
+        {
+            rotationFlag=0;
+        }
+        return 4;
+    }
+    //4 den 3 e gidiyorsa
+    else if(source==3 && next==2)
+    {
+        cerr<<" 4 den 3 e gidiyorsa "<<endl;
+        cerr<<"rotation flag: "<<rotationFlag<<endl;
+        if(startNode==3)
+        {
+            return 4;
+        }
+        else if(beforeNode==4)
+        {
+            if(rotationFlag < flagValue && dortUcFlag)
+            {
+                rotationFlag++;
+                return 3;
+            }
+            else if(rotationFlag>= flagValue)
+            {
+                rotationFlag=0;
+                dortUcFlag=false;
+                return 4;
+            }
+            else if(dortUcFlag==false)
+            {
+                return 4;
+            }
+        }
+        else
+        {
+            cerr<<"Else oldu nasıl oldu pof oldu"<<endl;
+            return 4;
+        }
+        return 0;
+    }
+    //3 den 2 ye gidiyorsa
+    else if(source==2 && next==1)
+    {
+        cerr<<" 3 den 2 ye gidiyorsa "<<endl;
+        if(rotationFlag==flagValue)
+        {
+            rotationFlag=0;
+        }
+        return 4;
+    }
+    //2 den 1 e gidiyorsa
+    else if(source==1 && next==0)
+    {
+        cerr<<" 2 den 1 e gidiyorsa "<<endl;
+        if(rotationFlag==flagValue)
+        {
+            rotationFlag=0;
+        }
+        return 4;
+    }
+    //1 den 11 e gidiyorsa
+    else if(source==0 && next==10)
+    {
+        cerr<<" 1 den 11 e gidiyorsa "<<endl;
+        cerr<<"rotation flag: "<<rotationFlag<<endl;
+
+        if(startNode==0)
+        {
+            return 4;
+        }
+        else if(beforeNode==1)
+        {
+            if(rotationFlag < flagValue && birOnBirFlag)
+            {
+                rotationFlag++;
+                return 3;
+            }
+            else if(rotationFlag>= flagValue)
+            {
+                rotationFlag=0;
+                birOnBirFlag=false;
+                return 4;
+            }
+            else if(birOnBirFlag==false)
+            {
+                return 4;
+            }
+        }
+        else
+        {
+            cerr<<"Else oldu nasıl oldu pof oldu"<<endl;
+            return 4;
+        }
+        return 0;
+    }
+
+    return 0;
+
+}
+
+
+
+
 
 /*void moveCompass(void)
 {
