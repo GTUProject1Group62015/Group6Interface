@@ -3,6 +3,8 @@
 #include "Graph.h"
 #include <QGraphicsItemGroup>
 #include <QTextStream>
+#include <QMouseEvent>
+
 
 #define MAPPATH "C:/Users/test/Documents/GitHub/Group6Interface/seyda.jpg"
 #define DMWIDTH 35 // Destination Marker Width
@@ -201,7 +203,6 @@ Vertex IcMekan::returnAreaNode(uint x, uint y)
         }
     }
 
-
 }
 
 void IcMekan::on_pushButton_clicked()
@@ -263,10 +264,10 @@ void IcMekan::on_pushButton_clicked()
     QTextStream(stdout) <<destVert.getX()<<" "<<destVert.getY()<<endl;
 
 
-    //uint baslangic=2;
+    uint baslangic=2;
 
 
-    uint baslangic=input_s.rec-1;
+    //uint baslangic=input_s.rec-1;
     Vertex bas= vertexList.at(baslangic);
 
     shortPath= g.shortestPath(bas,destVert);
@@ -408,7 +409,7 @@ void IcMekan::update2(){
          cerr<<"-1 değil set edildi \n";
 
 
-         if(shortPath.size()-1==location-1)
+         if(shortPath.at(shortPath.size()-1).getNo()==location-1)
          {
              //vardın
              sprintf(sendData, "%d", 5);
@@ -448,7 +449,7 @@ void IcMekan::update2(){
                  if((location-1)==shortPath.at(i).getNo())
                  {
                      //angleVertex=calculateAngle(shortPath[i],shortPath[i+1]);
-                     angleResult=g.findRotation(shortPath[i],shortPath[i+1],(angleMarker*-1));
+                     angleResult=g.findRotNoCompass(shortPath.at(i).getNo(),shortPath.at(i+1).getNo(),(angleMarker*-1));
                      QTextStream(stdout) <<" bolge "<<shortPath.at(i).getNo()<<" aci: "<<angleResult;
                      sprintf(sendData, "%d", angleResult);
                      QTextStream(stdout) <<" gonderilen aci: "<<angleResult;
@@ -495,7 +496,7 @@ void IcMekan::update2(){
     //while (cin.get(c) && c != '\n')
     //  ;
 
-    locationMarker->setRotation((input_s.d)*-1);
+    locationMarker->setRotation((((input_s.d+360)-110-45)%360)*-1);
 
 
     scene->update();
@@ -603,7 +604,7 @@ void IcMekan::connectToServer(){
 
 
 
-    sprintf(sendData, "%d", result);
+    sprintf(sendData, "%d", 2);
     //strcat(buf, sendData);
 
     //strcat(buf, "****");
@@ -635,12 +636,112 @@ void IcMekan::connectToServer(){
 void IcMekan::on_deneme_clicked()
 {
 
-    locationMarker->setRotation(30);
+    //locationMarker->setRotation(30);
 
-    locationMarker->setPos(30,40);
+    //locationMarker->setPos(30,40);
     //2 gönder
 
+    this->initiliaze();
+
 }
+
+void IcMekan::initiliaze()
+{
+    cerr<<"initialize a girdim\n"<<endl;
+    QBrush greenBrush(Qt::green);
+    QPen blackPen(Qt::black);
+    QPen redPen(Qt::red);
+    redPen.setWidth(5);
+    blackPen.setWidth(6);
+
+    destinationVertex->setVertex(destinationMarker->pos().x() + DMWIDTH/2, destinationMarker->pos().y() + DMWIDTH/2);
+    locationVertex->setVertex(locationMarker->pos().x() + 10, locationMarker->pos().y());
+
+    Iui->label->setText("destination vertex = " + QString::number(destinationVertex->getX()) + ", " + QString::number(destinationVertex->getY()));
+
+    clearLines();
+
+    QGraphicsLineItem *line;
+    veri=FindArea();
+    destinationRect=veri;
+    QTextStream(stdout) <<" veri: " <<veri<<endl;
+
+    QPixmap pix(1000,1000);
+
+    pix.fill(Qt::transparent);
+
+    QPainter painter(&pix);
+
+    painter.setBrush(QColor(0, 255, 0, 127));
+
+    xTransRect=colorAreaPoint.at(veri).x;
+    yTransRect=colorAreaPoint.at(veri).y;
+    widthTransRect=colorAreaPoint.at(veri).width;
+    heightTransRect=colorAreaPoint.at(veri).height;
+
+
+    rect.setRect(xTransRect, yTransRect,widthTransRect ,heightTransRect);
+
+    painter.drawRect(rect);
+
+    scene -> addPixmap(pix);
+
+    Vertex destVert= returnAreaNode(destinationMarker->pos().x() + DMWIDTH/2, destinationMarker->pos().y() + DMWIDTH/2);
+    QTextStream(stdout) <<destVert.getX()<<" "<<destVert.getY()<<endl;
+
+
+    QTextStream(stdout) <<"VERTEX LİST SİZE: "<<" "<<vertexList.size()<<endl;
+
+
+    //uint baslangic=2;
+
+
+    uint baslangic=input_s.rec-1;
+    Vertex bas= vertexList.at(baslangic);
+
+    shortPath= g.shortestPath(bas,destVert);
+
+
+
+    for(uint i = 0; i < shortPath.size()-1; ++i)
+    {
+        // Add Line for Edges
+        drawLine(shortPath[i],shortPath[i+1], blackPen);
+        QTextStream(stdout)<<"Nolarrrrrrr "<<shortPath.at(i).getNo()<<endl;
+    }
+
+    for(uint i = 0; i < shortPath.size(); ++i)
+    {
+        nodeLocationsMarker = scene -> addEllipse(shortPath[i].getX()-NLWIDTH/2,
+                                                  shortPath[i].getY()-NLWIDTH/2,
+                                                  NLWIDTH,
+                                                  NLWIDTH,
+                                                  blackPen,
+                                                  greenBrush);
+    }
+
+}
+
+void IcMekan::mousePressEvent(QMouseEvent *event)
+{
+    if(event->button() == Qt::LeftButton)
+    {
+        QPointF mousePoint = QCursor::pos();
+
+
+        destinationMarker->setPos(event->localPos().x()-20,event->localPos().y()- 20);
+       //destinationMarker->pos().setX(QCursor:pos().rx());
+        //destinationMarker->pos().setY(QCursor::pos().ry());
+        qDebug()  << destinationMarker->pos().x()<< endl;
+        qDebug()  << destinationMarker->pos()<< QCursor::pos().x()<< QCursor::pos().y()<< endl;
+        this->initiliaze();
+        //scene->at(0)->(this->oldPixMap);
+        //Iui->graphicsView->repaint();
+
+    }
+}
+
+
 
 
 /*void IcMekan::paintEvent(QPaintEvent *event)

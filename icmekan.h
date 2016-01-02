@@ -29,6 +29,8 @@
 #include "Graph.h"
 #include <QPainter>
 #include "Area.h"
+#include <QMouseEvent>
+
 
 /* server define*/
 
@@ -54,6 +56,8 @@ class IcMekan : public QDialog
 
 public:
     //void paintEvent(QPaintEvent *event);
+    void mousePressEvent(QMouseEvent *event);
+    void initiliaze();
     Vertex returnAreaNode(uint x, uint y);
     int FindArea();
     void seekLocation(); // Get User Location from hardware

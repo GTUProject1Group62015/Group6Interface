@@ -363,36 +363,367 @@ int Graph::moveRotation(Vertex source, Vertex next)
 }
 
 
-int findRotNoCompass(Vertex source, Vertex next)
+int Graph::findRotNoCompass(int source, int next, double rotation)
 {
-    cerr<<"FindRotation No Compass\n";
-
-    //next source un solundaysa
-
-    if(next.getX()<source.getX() && next.getY()==source.getY())
+    //1 den 2 ye gidiyorsa
+    if(source==0 && next==1)
     {
-        cerr<<"next source un solunda\n";
+        if(rotation<ONE_TO_TWO + FARK && rotation > ONE_TO_TWO - FARK)
+        {
+            return 2;
+        }
+        else if(rotation>ONE_TO_TWO)
+        {
+            return 3;
+        }
+        else if(rotation<ONE_TO_TWO)
+        {
+            return 1;
+        }
+    }
+    //2 den 3 e gidiyorsa
+    else if(source==1 && next==2)
+    {
+        if(rotation<TWO_TO_THREE + FARK && rotation > TWO_TO_THREE - FARK)
+        {
+            return 2;
+        }
+        else if(rotation>TWO_TO_THREE)
+        {
+            return 3;
+        }
+        else if(rotation<TWO_TO_THREE)
+        {
+            return 1;
+        }
+
+    }
+    //3 den 4 e gidiyorsa
+    else if(source==2 && next==3)
+    {
+        if(rotation<THREE_TO_FOUR + FARK && rotation > THREE_TO_FOUR - FARK)
+        {
+            return 2;
+        }
+        else if(rotation>THREE_TO_FOUR)
+        {
+            return 3;
+        }
+        else if(rotation<THREE_TO_FOUR)
+        {
+            return 1;
+        }
+    }
+    //4 den 5 e gidiyorsa
+    else if(source==3 && next==4)
+    {
+        if(rotation<FOUR_TO_FIVE + FARK && rotation > FOUR_TO_FIVE - FARK)
+        {
+            return 2;
+        }
+        else if(rotation>FOUR_TO_FIVE)
+        {
+            return 1;
+        }
+        else if(rotation<FOUR_TO_FIVE)
+        {
+            return 3;
+        }
+
+    }//5 den 6 ya gidiyorsa
+    else if(source==4 && next==5)
+    {
+        if(rotation<FIVE_TO_SIX + FARK && rotation > FIVE_TO_SIX - FARK)
+        {
+            return 2;
+        }
+        else if(rotation>FIVE_TO_SIX)
+        {
+            return 1;
+        }
+        else if(rotation<FIVE_TO_SIX)
+        {
+            return 3;
+        }
+
+    }
+    //6 dan 7 ye gidiyorsa
+    else if(source==5 && next==6)
+    {
+        if((rotation<SIX_TO_SEVEN + FARK && rotation > SIX_TO_SEVEN - FARK) || rotation>350)
+        {
+            return 2;
+        }
+        else if(rotation>SIX_TO_SEVEN)
+        {
+            return 3;
+        }
+        else if(rotation<SIX_TO_SEVEN || rotation<350 )
+        {
+            return 1;
+        }
+
+    }
+    //7 den 8 e gidiyorsa
+    else if(source==6 && next==7)
+    {
+        if((rotation<SEVEN_TO_EIGHT + FARK && rotation > SEVEN_TO_EIGHT - FARK) || rotation>350)
+        {
+            return 2;
+        }
+        else if(rotation>SEVEN_TO_EIGHT)
+        {
+            return 3;
+        }
+        else if(rotation<SEVEN_TO_EIGHT)
+        {
+            return 1;
+        }
+    }
+    //8 den 9 a gidiyorsa
+    else if(source==7 && next==8)
+    {
+        if((rotation<EIGHT_TO_NINE + FARK && rotation > EIGHT_TO_NINE - FARK) || rotation<=20)
+        {
+            return 2;
+        }
+        else if(rotation>EIGHT_TO_NINE)
+        {
+            return 3;
+        }
+        else if(rotation<EIGHT_TO_NINE)
+        {
+            return 1;
+        }
+    }
+    //9 dan 10 e gidiyorsa
+    else if(source==8 && next==9)
+    {
+        if(rotation<NINE_TO_TEN + FARK && rotation > NINE_TO_TEN - FARK)
+        {
+            return 2;
+        }
+        else if(rotation>NINE_TO_TEN)
+        {
+            return 3;
+        }
+        else if(rotation<NINE_TO_TEN)
+        {
+            return 1;
+        }
+    }
+    //10 dan 11 e gidiyorsa
+    else if(source==9 && next==10)
+    {
+        if(rotation<TEN_TO_ELEVEN + FARK && rotation > TEN_TO_ELEVEN - FARK)
+        {
+            return 2;
+        }
+        else if(rotation>TEN_TO_ELEVEN)
+        {
+            return 3;
+        }
+        else if(rotation<TEN_TO_ELEVEN)
+        {
+            return 1;
+        }
+    }
+    //11 den 1 e gidiyorsa
+    else if(source==10 && next==0)
+    {
+        if(rotation<ELEVEN_TO_ONE + FARK && rotation > ELEVEN_TO_ONE - FARK)
+        {
+            return 2;
+        }
+        else if(rotation>ELEVEN_TO_ONE)
+        {
+            return 3;
+        }
+        else if(rotation<ELEVEN_TO_ONE)
+        {
+            return 1;
+        }
     }
 
-    //next source un ilerisindeyse --> haritada yukarisindaysa
 
-    else if(next.getX()==source.getX() && next.getY()<source.getY())
+    /*********************************/
+
+
+    //11 den 10 a gidiyorsa
+    else if(source==10 && next==9)
     {
-        cerr<<"next source un haritada yukarısında\n";
+        if(rotation<ELEVEN_TO_TEN + FARK && rotation > ELEVEN_TO_TEN - FARK)
+        {
+            return 2;
+        }
+        else if(rotation>ELEVEN_TO_TEN)
+        {
+            return 3;
+        }
+        else if(rotation<ELEVEN_TO_TEN)
+        {
+            return 1;
+        }
     }
-
-    //next source un sagindaysa
-
-    else if(next.getX()>source.getX() && next.getY()==source.getY())
+    //10 dan 9 a gidiyorsa
+    else if(source==9 && next==8)
     {
-        cerr<<"next source un haritada saginda\n";
+        if(rotation<TEN_TO_NINE + FARK && rotation > TEN_TO_NINE - FARK)
+        {
+            return 2;
+        }
+        else if(rotation>TEN_TO_NINE)
+        {
+            return 3;
+        }
+        else if(rotation<TEN_TO_NINE)
+        {
+            return 1;
+        }
     }
-
-    //next source un gerisindeyse --> haritada asagisinda
-
-    else if(next.getX()==source.getX() && next.getY()>source.getY())
+    //9 dan 8 e gidiyorsa
+    else if(source==8 && next==7)
     {
-        cerr<<"next source un haritada asagisinda\n";
+        if(rotation<NINE_TO_EIGHT + FARK && rotation > NINE_TO_EIGHT - FARK)
+        {
+            return 2;
+        }
+        else if(rotation>NINE_TO_EIGHT)
+        {
+            return 3;
+        }
+        else if(rotation<NINE_TO_EIGHT)
+        {
+            return 1;
+        }
+    }
+    //8 den 7 ye gidiyorsa
+    else if(source==7 && next==6)
+    {
+        if(rotation<EIGHT_TO_SEVEN + FARK && rotation > EIGHT_TO_SEVEN - FARK)
+        {
+            return 2;
+        }
+        else if(rotation>EIGHT_TO_SEVEN)
+        {
+            return 3;
+        }
+        else if(rotation<EIGHT_TO_SEVEN)
+        {
+            return 1;
+        }
+    }
+    //7 den 6 ya gidiyorsa
+    else if(source==6 && next==5)
+    {
+        if(rotation<SEVEN_TO_SIX + FARK && rotation > SEVEN_TO_SIX - FARK)
+        {
+            return 2;
+        }
+        else if(rotation>SEVEN_TO_SIX)
+        {
+            return 3;
+        }
+        else if(rotation<SEVEN_TO_SIX)
+        {
+            return 1;
+        }
+    }
+    //6 dan 5 e gidiyorsa
+    else if(source==5 && next==4)
+    {
+        if(rotation<SIX_TO_FIVE + FARK && rotation > SIX_TO_FIVE - FARK)
+        {
+            return 2;
+        }
+        else if(rotation>SIX_TO_FIVE)
+        {
+            return 3;
+        }
+        else if(rotation<SIX_TO_FIVE)
+        {
+            return 1;
+        }
+    }
+    //5 den 4 e gidiyorsa
+    else if(source==4 && next==3)
+    {
+        if(rotation<FIVE_TO_FOUR + FARK && rotation > FIVE_TO_FOUR - FARK)
+        {
+            return 2;
+        }
+        else if(rotation>FIVE_TO_FOUR)
+        {
+            return 3;
+        }
+        else if(rotation<FIVE_TO_FOUR)
+        {
+            return 1;
+        }
+    }
+    //4 den 3 e gidiyorsa
+    else if(source==3 && next==2)
+    {
+        if((rotation<FOUR_TO_THREE + FARK && rotation > FOUR_TO_THREE - FARK) || rotation>=340)
+        {
+            return 2;
+        }
+        else if(rotation>FOUR_TO_THREE)
+        {
+            return 3;
+        }
+        else if(rotation<FOUR_TO_THREE)
+        {
+            return 1;
+        }
+    }
+    //3 den 2 ye gidiyorsa
+    else if(source==2 && next==1)
+    {
+        if((rotation<THREE_TO_TWO + FARK && rotation > THREE_TO_TWO - FARK) || rotation>=350)
+        {
+            return 2;
+        }
+        else if(rotation>THREE_TO_TWO)
+        {
+            return 3;
+        }
+        else if(rotation<THREE_TO_TWO)
+        {
+            return 1;
+        }
+    }
+    //2 den 1 e gidiyorsa
+    else if(source==1 && next==0)
+    {
+        if((rotation<TWO_TO_ONE + FARK && rotation > TWO_TO_ONE - FARK) || rotation>=350)
+        {
+            return 2;
+        }
+        else if(rotation>TWO_TO_ONE)
+        {
+            return 3;
+        }
+        else if(rotation<TWO_TO_ONE)
+        {
+            return 1;
+        }
+    }
+    //1 den 11 e gidiyorsa
+    else if(source==0 && next==10)
+    {
+        if(rotation<ONE_TO_ELEVEN + FARK && rotation > ONE_TO_ELEVEN - FARK)
+        {
+            return 2;
+        }
+        else if(rotation>ONE_TO_ELEVEN)
+        {
+            return 3;
+        }
+        else if(rotation<ONE_TO_ELEVEN)
+        {
+            return 1;
+        }
     }
 
     return 0;
