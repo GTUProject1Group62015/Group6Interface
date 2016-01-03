@@ -415,7 +415,7 @@ void IcMekan::update2(){
              sprintf(sendData, "%d", 5);
 
          }
-         cerr<<"AngleResult1 "<<angleResult<<endl;
+         /*cerr<<"AngleResult1 "<<angleResult<<endl;
 
          for(int i=0;i<shortPath.size()-1;i++)
          {
@@ -440,9 +440,9 @@ void IcMekan::update2(){
 
 
          locationMarker->setPos(WayCoordinate.at(input_s.rec-1).x,WayCoordinate.at(input_s.rec-1).y);
+           */
 
-
-         /*//Onceden yon dogru ise
+         //Onceden yon dogru ise
          if(angleResult==2 && flag2==0)
          {
              cerr<<"AngleResult2 "<<angleResult<<endl;
@@ -475,7 +475,7 @@ void IcMekan::update2(){
                  if((location-1)==shortPath.at(i).getNo())
                  {
                      //angleVertex=calculateAngle(shortPath[i],shortPath[i+1]);
-                     angleResult=g.findRotNoCompass(shortPath.at(i).getNo(),shortPath.at(i+1).getNo(),(angleMarker*-1));
+                     angleResult=g.findRotWithArea(shortPath.at(i).getNo(),shortPath.at(i+1).getNo(),input_s.d);//(angleMarker*-1)
                      QTextStream(stdout) <<" bolge "<<shortPath.at(i).getNo()<<" aci: "<<angleResult;
                      sprintf(sendData, "%d", angleResult);
                      QTextStream(stdout) <<" gonderilen aci: "<<angleResult;
@@ -496,7 +496,7 @@ void IcMekan::update2(){
          if(angleResult!=2)
          {
             flag2=-1;
-         }*/
+         }
 
     }
 

@@ -428,11 +428,11 @@ int Graph::findRotWithArea(int source, int next, double rotation)
         }
         else if(rotation>FOUR_TO_FIVE)
         {
-            return 1;
+            return 3;
         }
         else if(rotation<FOUR_TO_FIVE)
         {
-            return 3;
+            return 1;
         }
 
     }//5 den 6 ya gidiyorsa
