@@ -4,6 +4,7 @@
 #include "icmekan.h"
 #include "dismekan.h"
 #include "ui_dismekan.h"
+#include "icmekanbutton.h"
 
 #define PATH "C:/Users/test/Documents/Github/Group6Interface/indir.jpg"
 
@@ -35,4 +36,10 @@ void MainWindow::on_disMekanButton_clicked()
 {
     disMekan *disMekanUi = new disMekan(this);
     disMekanUi->exec();
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    icMekanButton *icMekanUi = new icMekanButton(this);
+    icMekanUi->showMaximized();
 }

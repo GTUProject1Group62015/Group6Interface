@@ -21,6 +21,8 @@ private slots:
 
     void on_disMekanButton_clicked();
 
+    void on_pushButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     QGraphicsScene *scene;

@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/new">
+        <file>seyda.jpg</file>
+    </qresource>
+</RCC>

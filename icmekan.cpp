@@ -4,7 +4,8 @@
 #include <QGraphicsItemGroup>
 #include <QTextStream>
 #include <QMouseEvent>
-
+#include <QPalette>
+#include <QColor>
 
 #define MAPPATH "C:/Users/test/Documents/GitHub/Group6Interface/seyda.jpg"
 #define DMWIDTH 35 // Destination Marker Width
@@ -56,27 +57,7 @@ IcMekan::IcMekan(QWidget *parent) :
 
         NodeCoordinate.push_back(Coor(xMiddle,yMiddle));
     }
-    //QTextStream(stdout) << NodeCoordinate.size() << endl;
 
-    //Add Vertex
-
-    /*for(int i=0;i<NodeCoordinate.size();i++)
-    {
-        g.addVertex(NodeCoordinate.at(i));
-    }*/
-
-
-    /*WayCoordinate.push_back(Coor(208,142));
-    WayCoordinate.push_back(Coor(227,267));
-    WayCoordinate.push_back(Coor(227,443));
-    WayCoordinate.push_back(Coor(227,590));
-    WayCoordinate.push_back(Coor(349,602));
-    WayCoordinate.push_back(Coor(488,579));
-    WayCoordinate.push_back(Coor(487,456));
-    WayCoordinate.push_back(Coor(487,300));
-    WayCoordinate.push_back(Coor(534,137));
-    WayCoordinate.push_back(Coor(451,118));
-    WayCoordinate.push_back(Coor(324,122));*/
 
     WayCoordinate.push_back(Coor(227,120));
     WayCoordinate.push_back(Coor(227,267));
@@ -144,42 +125,15 @@ IcMekan::IcMekan(QWidget *parent) :
     locationMarker->setRotation(input_s.d*-1);
     locationVertex = g.addVertex(Coor(locationMarker->pos().x(), locationMarker->pos().y()));
 
-    // Create Node Locations Marker
-    if(DEVELOPERMODE)
-    {
-        // Draw lines between all vertexes
-        /*vector<Edge> edgeList = g.getAllEdge();
-        for(uint i = 0; i < edgeList.size()-1; ++i)
-        {
-            // Add Line for Edges
-            drawLine(edgeList[i].getSourceVertex(), edgeList[i].getDestVertex(), blackPen);
-        }
 
-        for(uint i = 0; i < vertexList.size(); ++i)
-        {
-            nodeLocationsMarker = scene -> addEllipse(vertexList[i].getX()-NLWIDTH/2,
-                                                      vertexList[i].getY()-NLWIDTH/2,
-                                                      NLWIDTH,
-                                                      NLWIDTH,
-                                                      blackPen,
-                                                      greenBrush);
-        }*/
-    }
-    /*
-    // Draw lines between all vertexes
-    for(uint i = 0; i < vertexList.size()-1; ++i)
-    {
-        // Add Line for Edges
-        drawLine(vertexList[i],vertexList[i+1] );
-
-    }
-    */
-    //seekLocation();
-
-    cerr<<"AAAAAAAaa"<<endl;
+    //cerr<<"AAAAAAAaa"<<endl;
     time=new QTimer(this);
     connect(time, SIGNAL(timeout()), this, SLOT(update2()));
     time->start(1000);
+
+
+
+
 }
 
 
@@ -225,17 +179,7 @@ void IcMekan::on_pushButton_clicked()
     clearLines();
 
     QGraphicsLineItem *line;
-    /*line = drawLine(*locationVertex, g.getVertexList()[0], redPen);
-    drawedLines.push_front(line);
-    for(uint i = 0; i < g.getVertexList().size()-3; ++i)
-    {
-        // Add Line for Edges
-        line = drawLine(g.getVertexList()[i], g.getVertexList()[i+1], redPen);
-        drawedLines.push_front(line);
-    }
-    line = drawLine(*destinationVertex, g.getVertexList()[g.getVertexList().size()-3], redPen);
-    drawedLines.push_front(line);*/
-    //locationMarker->setRotation(45);
+
     veri=FindArea();
     destinationRect=veri;
     QTextStream(stdout) <<" veri: " <<veri<<endl;
@@ -415,7 +359,7 @@ void IcMekan::update2(){
              sprintf(sendData, "%d", 5);
 
          }
-         /*cerr<<"AngleResult1 "<<angleResult<<endl;
+         cerr<<"AngleResult1 "<<angleResult<<endl;
 
          for(int i=0;i<shortPath.size()-1;i++)
          {
@@ -440,9 +384,9 @@ void IcMekan::update2(){
 
 
          locationMarker->setPos(WayCoordinate.at(input_s.rec-1).x,WayCoordinate.at(input_s.rec-1).y);
-           */
 
-         //Onceden yon dogru ise
+
+         /*//Onceden yon dogru ise
          if(angleResult==2 && flag2==0)
          {
              cerr<<"AngleResult2 "<<angleResult<<endl;
@@ -496,7 +440,7 @@ void IcMekan::update2(){
          if(angleResult!=2)
          {
             flag2=-1;
-         }
+         }*/
 
     }
 

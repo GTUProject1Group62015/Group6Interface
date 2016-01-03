@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     dismekan.cpp \
     mygraphicsscene.cpp \
     SuperVertex.cpp \
-    Client.cpp
+    Client.cpp \
+    icmekanbutton.cpp
 
 HEADERS  += mainwindow.h \
     icmekan.h \
@@ -34,10 +35,15 @@ HEADERS  += mainwindow.h \
     mygraphicsscene.h \
     SuperVertex.h \
     input.h \
-    Coor.h
+    Coor.h \
+    icmekanbutton.h
 
 FORMS    += mainwindow.ui \
     icmekan.ui \
-    dismekan.ui
+    dismekan.ui \
+    icmekanbutton.ui
 
 LIBS  += -lws2_32
+
+RESOURCES += \
+    res.qrc
